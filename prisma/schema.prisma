@@ -37,6 +37,14 @@ model FuelTypes{
   id      String       @id @default(uuid()) @db.Uuid
   name    String
   acronym String
+
+  isDeleted  Boolean?   @default(false)      //aaaaaaaaaaaaaaaaaaaaa
+  createdAt  DateTime?  @default(now())      //aaaaaaaaaaaaaaaaaaaaa
+  updatedAt  DateTime?
+  deletedAt  DateTime?
+  createdBy  String?    @db.Uuid             //aaaaaaaaaaaaaaaaaaaaa
+  updatedBy  String?   @db.Uuid
+  deletedBy  String?   @db.Uuid
 }
 
 model Brands{
@@ -45,6 +53,14 @@ model Brands{
   fipeCode   String?
 
   fkModels   Models[]
+
+  isDeleted  Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime?
+  deletedAt  DateTime?
+  createdBy  String    @db.Uuid
+  updatedBy  String?   @db.Uuid
+  deletedBy  String?   @db.Uuid
 }
 
 model Models{
@@ -54,6 +70,14 @@ model Models{
   brandsId  String     @db.Uuid 
   
   brands    Brands     @relation(fields: [brandsId], references: [id])    
+
+  isDeleted  Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime?
+  deletedAt  DateTime?
+  createdBy  String    @db.Uuid
+  updatedBy  String?   @db.Uuid
+  deletedBy  String?   @db.Uuid
 }
 
 
