@@ -12,6 +12,12 @@ export class CreateFuelTypeUseCase {
     ){}
 
     async execute(data: CreateFuelTypesDTO): Promise<FuelTypesDTO> {
+        const existingFuelType = await this.fuelTypesRepository.findExistingFuelType(data);
+
+        if (existingFuelType.length > 0) {
+            throw new Error("Combustível já existe")
+        }
+
         return await this.fuelTypesRepository.create(data)
     }
 }

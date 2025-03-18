@@ -1,3 +1,4 @@
 import { FuelTypes } from "@prisma/client"; 
+import { FuelTypesDTO } from "./FuelTypesDTO";
 
-export interface UpdateFuelTypesDTO extends Omit<FuelTypes, "createdAt " | "updateAt" | "deletedAt" | "updatedBy" | "createdBy" | "deletedBy" | "isDeleted"> {}
+export interface UpdateFuelTypesDTO extends Pick<FuelTypesDTO, "id" | "name" | "abbreviation" | "updatedAt"> {}

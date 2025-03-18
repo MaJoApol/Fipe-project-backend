@@ -1,7 +1,7 @@
 import { container } from "tsyringe";
-import { CreateFuelTypeUseCase } from "./FuelTypesUseCase";
 import { Response, Request } from "express";
 import { CreateFuelTypesDTO } from "../../dtos/CreateFuelTypesDTO";
+import { CreateFuelTypeUseCase } from "./CreateFuelTypesUseCase";
 
 
 export class CreateFuelTypeController {
