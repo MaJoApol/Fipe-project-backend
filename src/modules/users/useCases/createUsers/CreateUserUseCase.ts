@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { inject, injectable } from "tsyringe";
-import { UsersRepository } from "../../infra/prisma/repositories/UsersRepository";
+import { IUsersRepository } from "../../repositories/IUsersRepository";
 import { CreateUserDTO } from "../../dtos/CreateUserDTO";
 import { hash } from "bcrypt";
 
@@ -9,7 +9,7 @@ import { hash } from "bcrypt";
 export class CreateUserUseCase{
     constructor(
         @inject("UsersRepository")
-        private usersRepository: UsersRepository
+        private usersRepository: IUsersRepository
     ){}
     async execute(data: CreateUserDTO){
 
@@ -26,7 +26,8 @@ export class CreateUserUseCase{
             contact: data.contact,    
             nationalId: data.nationalId,     
             email: data.email,          
-            password: passwordHash
+            password: passwordHash,
+            token: ""
         })
     }
 }

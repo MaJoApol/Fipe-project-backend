@@ -7,8 +7,10 @@ import { UsersDTO } from "../dtos/UsersDTO";
 export interface IUsersRepository {
     create(data: CreateUserDTO): Promise<UsersDTO>;
     update(data: UpdateUserDTO): Promise<UsersDTO>;
-    list(data: {page: number}): Promise<UsersDTO[]>
+    list(data: {page: number}): Promise<UsersDTO[]>;
     remove(id: string): Promise<void>;
     findById(id: string): Promise<UsersDTO>;
-    findExistingUsers(data: CreateUserDTO): Promise<UsersDTO[]>
+    findExistingUsers(data: CreateUserDTO): Promise<UsersDTO[]>;
+    findByEmail(email: string): Promise<UsersDTO>;
+    updateToken(id: string, token: string): Promise<UsersDTO>;
 }

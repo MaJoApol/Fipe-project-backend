@@ -1,5 +1,5 @@
 import { inject, injectable } from "tsyringe";
-import { FuelTypesRepository } from "../../infra/prisma/repositories/FuelTypesRepository";
+import { IFuelTypesRepository } from "../../repositories/IFuelTypesRepository";
 import { FuelTypesDTO } from "../../dtos/FuelTypesDTO";
 
 
@@ -7,7 +7,7 @@ import { FuelTypesDTO } from "../../dtos/FuelTypesDTO";
 export class ListFuelTypesUseCase{
     constructor(
         @inject("FuelTypesRepository")
-        private fuelTypesRepository: FuelTypesRepository
+        private fuelTypesRepository: IFuelTypesRepository
     ){}
     async execute(): Promise<FuelTypesDTO[]>{
         const fuelTypes = await this.fuelTypesRepository.list({page: 1});

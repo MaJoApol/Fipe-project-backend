@@ -1,24 +1,76 @@
 import { inject, injectable } from "tsyringe";
-import { UsersRepository } from "../../infra/prisma/repositories/UsersRepository";
+import { IUsersRepository } from "../../repositories/IUsersRepository";
 import { AuthenticateUserDTO } from "../../dtos/AuthenticateUserDTO";
 import { compare } from "bcrypt";
+import { sign } from "jsonwebtoken";
+import  auth  from "../../../../config/auth"
+import { UsersDTO } from "../../dtos/UsersDTO";
+import { addDays } from "../../../../utils/addDays";
+
+interface UserAuthResponse {
+    user: UsersDTO;
+    token: string;
+    refreshToken: string;
+    tokenTime: number;
+}
+
 
 @injectable()
-class AuthenticateUserUseCase{
+export class AuthenticateUserUseCase{
     constructor(
         @inject("UsersRepository")
-        private usersRepository: UsersRepository
+        private usersRepository: IUsersRepository,
     ){}
-    async execute(data: AuthenticateUserDTO): Promise<void>{
+    async execute(data: AuthenticateUserDTO): Promise<UserAuthResponse>{
         const existingUser = await this.usersRepository.findByEmail(data.email);
 
-        if (!existingUser || !data.password){
-            throw new Error("E-mail ou senha incorretos!")
+        if (!existingUser){
+   
+            throw new Error("E-mail não cadastrado.")
+        }
+        if (!data.password){
+     
+            throw new Error("Forneça uma senha!")
         }
 
-        const passwordMatch = await compare(password, data.password)
+        const passwordMatch = await compare(data.password, existingUser.password)
+
+        if (!passwordMatch){
+            throw new Error ("Credenciais incorretas!")
+        }
+
+        const token = sign(
+            {
+                email: existingUser.email
+            },
+            auth.secret_token,
+            {
+                subject: existingUser.id,
+                expiresIn: auth.expires_in_token_days
+            });
         
+        const refreshToken = sign(
+            {
+                email: existingUser.email
+            },
+            auth.secret_refresh_token,
+            {
+                subject: existingUser.id,
+                expiresIn: auth.expires_refresh_token_days
+            });
 
+        const expire_in_token = addDays(auth.expires_in_token_days).getTime(); // aqui ele pega o tempo que vai levar até expirar em milissegunfos
 
+        await this.usersRepository.updateToken(existingUser.id, token)
+
+        const userAuthResponse: UserAuthResponse = {
+            user: existingUser,
+            token,
+            refreshToken, 
+            tokenTime: expire_in_token
+        }
+
+        return userAuthResponse;
+        
     }
 }

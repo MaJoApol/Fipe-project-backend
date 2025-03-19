@@ -8,4 +8,3 @@ container.registerSingleton<IFuelTypesRepository>("FuelTypesRepository", FuelTyp
 import { IUsersRepository } from "../../modules/users/repositories/IUsersRepository";
 import { UsersRepository } from "../../modules/users/infra/prisma/repositories/UsersRepository";
 container.registerSingleton<IUsersRepository>("UsersRepository", UsersRepository)
-
