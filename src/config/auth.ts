@@ -7,6 +7,6 @@ export default {
     secret_refresh_token: process.env.SECRET_REFRESH_TOKEN || "",
     expires_in_token: "15d",
     expires_in_token_days: 15,
-    expires_in_refresh_token: "25",
+    expires_in_refresh_token: "25d",
     expires_refresh_token_days: 25
 };
