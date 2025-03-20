@@ -20,9 +20,14 @@ export class UsersRepository{
         })) as UsersDTO;
     }
 
-    async remove(id: string): Promise<void>{
-        await prisma.users.delete({
-            where: {id}
+    async remove(id: string, performer: string): Promise<void>{
+        await prisma.users.update({
+            where: {id},
+            data: {
+                isDeleted: true,
+                deletedBy: performer,
+                deletedAt: new Date()
+            }
         }) as UsersDTO
     }
 

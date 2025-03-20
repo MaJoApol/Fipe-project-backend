@@ -8,7 +8,7 @@ export interface IUsersRepository {
     create(data: CreateUserDTO): Promise<UsersDTO>;
     update(data: UpdateUserDTO): Promise<UsersDTO>;
     list(data: {page: number}): Promise<UsersDTO[]>;
-    remove(id: string): Promise<void>;
+    remove(id: string, performer: string): Promise<void>;
     findById(id: string): Promise<UsersDTO>;
     findExistingUsers(data: CreateUserDTO): Promise<UsersDTO[]>;
     findByEmail(email: string): Promise<UsersDTO>;

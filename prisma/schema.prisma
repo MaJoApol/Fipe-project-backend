@@ -14,10 +14,9 @@ datasource db {
 }
 
 model Users {
-  @@map("users")
   id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name       String
-  birthdate  DateTime?
+  birthdate  DateTime? @db.Date
   contact    String?
   nationalId String    @unique
   email      String    @unique
@@ -28,9 +27,36 @@ model Users {
   createdAt  DateTime  @default(now())
   updatedAt  DateTime?
   deletedAt  DateTime?
-  createdBy  String?    @default("self")  //@db.Uuid
-  updatedBy  String?   @db.Uuid
-  deletedBy  String?   @db.Uuid
+
+  createdById  String?    @db.Uuid             
+  createdBy    Users?     @relation("createdUsers",fields: [createdById], references: [id])   
+  
+  updatedById  String?    @db.Uuid
+  updatedBy    Users?     @relation("updatedUsers",fields: [updatedById], references: [id])   
+
+  deletedById  String?    @db.Uuid
+  deletedBy    Users?     @relation("deletedUsers",fields: [deletedById], references: [id]) 
+
+  createdUsers Users[] @relation("createdUsers")
+  updatedUsers Users[] @relation("updatedUsers")
+  deletedUsers Users[] @relation("deletedUsers")
+
+  createdFuelTypes FuelTypes[] @relation("createdFuelTypes")
+  updatedFuelTypes FuelTypes[] @relation("updatedFuelTypes")
+  deletedFuelTypes FuelTypes[] @relation("deletedFuelTypes")
+
+  createdBrands Brands[] @relation("createdBrands")
+  updatedBrands Brands[] @relation("updatedBrands")
+  deletedBrands Brands[] @relation("deletedBrands")
+
+  createdModels Models[] @relation("createdModels")
+  updatedModels Models[] @relation("updatedModels")
+  deletedModels Models[] @relation("deletedModels")
+
+  createdVehicles Vehicles[] @relation("createdVehicles")
+  updatedVehicles Vehicles[] @relation("updatedVehicles")
+  deletedVehicles Vehicles[] @relation("deletedVehicles")
+
 }
 
 model FuelTypes{
@@ -38,13 +64,21 @@ model FuelTypes{
   name    String
   abbreviation String
 
-  isDeleted  Boolean?   @default(false)      //aaaaaaaaaaaaaaaaaaaaa
-  createdAt  DateTime?  @default(now())      //aaaaaaaaaaaaaaaaaaaaa
-  updatedAt  DateTime?
-  deletedAt  DateTime?
-  createdBy  String?    @db.Uuid             //aaaaaaaaaaaaaaaaaaaaa
-  updatedBy  String?   @db.Uuid
-  deletedBy  String?   @db.Uuid
+  isDeleted    Boolean   @default(false)      
+  createdAt    DateTime  @default(now())      
+  updatedAt    DateTime?
+  deletedAt    DateTime?
+
+  createdById  String?    @db.Uuid             
+  createdBy    Users?     @relation("createdFuelTypes", fields: [createdById], references: [id])   
+  
+  updatedById  String?    @db.Uuid
+  updatedBy    Users?     @relation("updatedFuelTypes", fields: [updatedById], references: [id])   
+
+  deletedById  String?    @db.Uuid
+  deletedBy    Users?     @relation("deletedFuelTypes", fields: [deletedById], references: [id])   
+
+  vehicles   Vehicles[]
 }
 
 model Brands{
@@ -52,15 +86,21 @@ model Brands{
   name       String
   fipeCode   String?
 
-  fkModels   Models[]
-
   isDeleted  Boolean   @default(false)
   createdAt  DateTime  @default(now())
   updatedAt  DateTime?
   deletedAt  DateTime?
-  createdBy  String    @db.Uuid
-  updatedBy  String?   @db.Uuid
-  deletedBy  String?   @db.Uuid
+
+  createdById  String?    @db.Uuid             
+  createdBy    Users?     @relation("createdBrands", fields: [createdById], references: [id])   
+  
+  updatedById  String?    @db.Uuid
+  updatedBy    Users?     @relation("updatedBrands", fields: [updatedById], references: [id])   
+
+  deletedById  String?    @db.Uuid
+  deletedBy    Users?     @relation("deletedBrands", fields: [deletedById], references: [id])   
+
+  models   Models[]
 }
 
 model Models{
@@ -75,9 +115,47 @@ model Models{
   createdAt  DateTime  @default(now())
   updatedAt  DateTime?
   deletedAt  DateTime?
-  createdBy  String    @db.Uuid
-  updatedBy  String?   @db.Uuid
-  deletedBy  String?   @db.Uuid
+
+  createdById  String?    @db.Uuid             
+  createdBy    Users?     @relation("createdModels", fields: [createdById], references: [id])   
+  
+  updatedById  String?    @db.Uuid
+  updatedBy    Users?     @relation("updatedModels", fields: [updatedById], references: [id])   
+
+  deletedById  String?    @db.Uuid
+  deletedBy    Users?     @relation("deletedModels", fields: [deletedById], references: [id])   
+
+  vehicles   Vehicles[]
+
 }
 
+model Vehicles{
+  id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  fipeCode       String? 
+  value          Int
+  referenceMonth DateTime? @db.Date
+  referenceYear  String?
+  vehicleYear    String    @unique
+
+  modelId        String    @db.Uuid    
+  model          Models?    @relation(fields: [modelId], references: [id])
+
+  fuelTypeId     String     @db.Uuid    
+  fuelType       FuelTypes? @relation(fields: [fuelTypeId], references: [id])
+
+  isDeleted    Boolean   @default(false)      
+  createdAt    DateTime  @default(now())      
+  updatedAt    DateTime?
+  deletedAt    DateTime?
+
+  createdById  String?    @db.Uuid             
+  createdBy    Users?     @relation("createdVehicles", fields: [createdById], references: [id])   
+  
+  updatedById  String?    @db.Uuid
+  updatedBy    Users?     @relation("updatedVehicles", fields: [updatedById], references: [id])   
+
+  deletedById  String?    @db.Uuid
+  deletedBy    Users?     @relation("deletedVehicles", fields: [deletedById], references: [id])   
+
+}
 

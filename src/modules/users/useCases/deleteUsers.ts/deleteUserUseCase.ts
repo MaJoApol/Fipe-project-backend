@@ -1,10 +1,6 @@
 import { inject, injectable } from "tsyringe";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
-import { CreateUserDTO } from "../../dtos/CreateUserDTO";
-import { hash } from "bcrypt";
 import { findTokenId } from "../../../../utils/findTokenId";
-import { Request } from "express";
-
 
 @injectable()
 export class DeleteUserUseCase{
@@ -13,12 +9,19 @@ export class DeleteUserUseCase{
         private usersRepository: IUsersRepository
     ){}
 
-    async execute(id: string){
+    async execute(id: string, tokenId: string){
+        if (!tokenId || tokenId === ''){
+            throw new Error("Token inexistente")
+        }
+
         const usersExists = await this.usersRepository.findById(id);
 
         if (!usersExists){
             throw new Error("Usuário não existe")
         }
-    }
 
+        const performedById = findTokenId(tokenId);
+        
+       return await this.usersRepository.remove(id, performedById);
+    }
 }
