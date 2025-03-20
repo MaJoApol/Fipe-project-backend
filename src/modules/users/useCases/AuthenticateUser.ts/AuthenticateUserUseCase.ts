@@ -6,6 +6,7 @@ import { sign } from "jsonwebtoken";
 import  auth  from "../../../../config/auth"
 import { UsersDTO } from "../../dtos/UsersDTO";
 import { addDays } from "../../../../utils/addDays";
+import { isAbsolute } from "path";
 
 interface UserAuthResponse {
     user: UsersDTO;
@@ -23,7 +24,6 @@ export class AuthenticateUserUseCase{
     ){}
     async execute(data: AuthenticateUserDTO): Promise<UserAuthResponse>{
         const existingUser = await this.usersRepository.findByEmail(data.email);
-
         if (!existingUser){
    
             throw new Error("E-mail não cadastrado.")
@@ -46,7 +46,7 @@ export class AuthenticateUserUseCase{
             auth.secret_token,
             {
                 subject: existingUser.id,
-                expiresIn: auth.expires_in_token_days
+                expiresIn: "25d"
             });
         
         const refreshToken = sign(
@@ -56,19 +56,19 @@ export class AuthenticateUserUseCase{
             auth.secret_refresh_token,
             {
                 subject: existingUser.id,
-                expiresIn: auth.expires_refresh_token_days
+                expiresIn: "15d"
             });
 
-        const expire_in_token = addDays(auth.expires_in_token_days).getTime(); // aqui ele pega o tempo que vai levar até expirar em milissegunfos
+        const expire_in_token = addDays(auth.expires_in_token_days).getTime(); // aqui ele pega o tempo que vai levar até expirar em milissegundos
 
-        await this.usersRepository.updateToken(existingUser.id, token)
-
+        await this.usersRepository.updateToken(existingUser.id, refreshToken);
         const userAuthResponse: UserAuthResponse = {
             user: existingUser,
             token,
             refreshToken, 
             tokenTime: expire_in_token
         }
+        
 
         return userAuthResponse;
         

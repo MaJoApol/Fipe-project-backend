@@ -1,7 +1,7 @@
-import { injectable } from "tsyringe";
-import { IUsersRepository } from "../../repositories/IUsersRepository";
+// import { injectable } from "tsyringe";
+// import { IUsersRepository } from "../../repositories/IUsersRepository";
 
 
 
-@injectable()
-export class
+// @injectable()
+// export class

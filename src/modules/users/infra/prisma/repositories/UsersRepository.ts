@@ -1,9 +1,10 @@
-import { CreateUserDTO } from "../../../dtos/CreateUserDTO";
+
 import { UsersDTO } from "../../../dtos/UsersDTO";
 import { prisma } from "../../../../../shared/infra/prisma";
 import { UpdateUserDTO } from "../../../dtos/UpdateUserDTO";
 import { FuelTypes } from "@prisma/client";
 import { AuthenticateUserDTO } from "../../../dtos/AuthenticateUserDTO";
+import { CreateUserDTO } from "../../../dtos/CreateUserDTO";
 
 export class UsersRepository{
    

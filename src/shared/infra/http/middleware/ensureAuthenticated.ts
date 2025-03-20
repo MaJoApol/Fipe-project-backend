@@ -5,7 +5,6 @@ import { findTokenId } from "../../../../utils/findTokenId";
 export async function ensureAunthenticated(request: Request, response: Response, next: NextFunction) {
 
     try {
-        console.log("AAAAAAAAAAA")
         const userId = findTokenId(request.headers.authorization)
     
         const usersRepository = new UsersRepository();

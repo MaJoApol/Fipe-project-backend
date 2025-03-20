@@ -28,7 +28,7 @@ model Users {
   createdAt  DateTime  @default(now())
   updatedAt  DateTime?
   deletedAt  DateTime?
-  createdBy  String    @default("self")  //@db.Uuid
+  createdBy  String?    @default("self")  //@db.Uuid
   updatedBy  String?   @db.Uuid
   deletedBy  String?   @db.Uuid
 }
