@@ -12,8 +12,11 @@ export class FuelTypesRepository {
     }
 
     async remove(id:string): Promise<void>{
-        await prisma.fuelTypes.delete({
-            where: {id}
+        await prisma.fuelTypes.update({
+            where: {id},
+            data: {
+                isDeleted: true
+            }
         })
     }
 
