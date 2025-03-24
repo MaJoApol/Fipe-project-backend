@@ -16,3 +16,7 @@ container.registerSingleton<IBrandsRepository>("BrandsRepository", BrandsReposit
 import { IModelsRepository } from "../../modules/models/repositories/IModelsRepository";
 import { ModelsRepository } from "../../modules/models/infra/prisma/repositories/ModelsRepository";
 container.registerSingleton<IModelsRepository>("ModelsRepository", ModelsRepository)
+
+import { IVehiclesRepository } from "../../modules/vehicles/repositories/IVehiclesRepository"; 
+import { VehiclesRepository } from "../../modules/vehicles/infra/prisma/repository/VehiclesRepository"; 
+container.registerSingleton<IVehiclesRepository>("VehiclesRepository", VehiclesRepository)

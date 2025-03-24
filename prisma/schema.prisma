@@ -135,8 +135,8 @@ model Vehicles{
   value          Int
   referenceMonth Int 
   referenceYear  Int
-  vehicleYear    Int    @unique
-
+  vehicleYear    Int    
+  
   modelId        String    @db.Uuid    
   model          Models?    @relation(fields: [modelId], references: [id])
 

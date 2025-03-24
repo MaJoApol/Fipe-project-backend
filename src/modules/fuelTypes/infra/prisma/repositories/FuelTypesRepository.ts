@@ -12,11 +12,13 @@ export class FuelTypesRepository implements IFuelTypesRepository {
         })) as FuelTypesDTO;
     }
 
-    async remove(id:string): Promise<void>{
+    async remove(id:string, performer: string): Promise<void>{
         await prisma.fuelTypes.update({
             where: {id},
             data: {
-                isDeleted: true
+                deletedById: performer,
+                isDeleted: true,
+                deletedAt: new Date()
             }
         })
     }
@@ -31,7 +33,7 @@ export class FuelTypesRepository implements IFuelTypesRepository {
 
     async findById(id: string): Promise<FuelTypesDTO>{
         const fuelTypes = (await prisma.fuelTypes.findUnique({
-            where: {id}
+            where: {id, isDeleted: false}
         })) as FuelTypesDTO;
         return fuelTypes
     }
@@ -40,7 +42,8 @@ export class FuelTypesRepository implements IFuelTypesRepository {
         const fuelTypes = (await prisma.fuelTypes.findMany({
             where: {
                 name: data.name,
-                abbreviation: data.abbreviation
+                abbreviation: data.abbreviation,
+                isDeleted: false
             }
         })) as FuelTypesDTO[];
         return fuelTypes;

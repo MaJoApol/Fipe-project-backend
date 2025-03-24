@@ -11,6 +11,6 @@ export class UpdateUserController{
         const tokenId = request.headers.authorization || '';
 
         const updateUserUseCase = container.resolve(UpdateUserUseCase);
-        return response.status(204).json(await updateUserUseCase.execute(data, request, tokenId));
+        return response.status(200).json(await updateUserUseCase.execute(data, tokenId));
     }
 }

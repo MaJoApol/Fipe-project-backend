@@ -30,7 +30,7 @@ export class BrandsRepository implements IBrandsRepository{
 
     async findById(id: string): Promise<BrandDTO>{
         return ( await prisma.brands.findUnique({
-            where: {id}
+            where: {id, isDeleted: false}
         })) as BrandDTO;
     }
 

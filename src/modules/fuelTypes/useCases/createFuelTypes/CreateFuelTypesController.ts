@@ -7,9 +7,10 @@ import { CreateFuelTypeUseCase } from "./CreateFuelTypesUseCase";
 export class CreateFuelTypeController {
     async handle(request: Request, response: Response): Promise<Response>{
         const data: CreateFuelTypesDTO = request.body;
+        const tokenId = request.headers.authorization || "";
         const createFuelTypeUseCase = container.resolve(CreateFuelTypeUseCase);
-        await createFuelTypeUseCase.execute(data);
-        return response.status(201).json({});
+        await createFuelTypeUseCase.execute(data, tokenId);
+        return response.status(201).json({message: "Criado com sucesso"});
     }
 }
  

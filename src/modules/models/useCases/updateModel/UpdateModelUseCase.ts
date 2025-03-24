@@ -1,14 +1,13 @@
 import { inject, injectable } from "tsyringe";
-import { ModelsRepository } from "../../infra/prisma/repositories/ModelsRepository";
 import { UpdateModelDTO } from "../../dtos/UpdateModelDTO";
 import { findTokenId } from "../../../../utils/findTokenId";
-
+import { IModelsRepository } from "../../repositories/IModelsRepository";
 
 @injectable()
 export class UpdateModelUseCase{
     constructor(
         @inject("ModelsRepository")
-        private modelsRepository: ModelsRepository
+        private modelsRepository: IModelsRepository
     ){}
     async execute(data: UpdateModelDTO, tokenId: string){
         const modalExists = await this.modelsRepository.findExistingModels(data.id);

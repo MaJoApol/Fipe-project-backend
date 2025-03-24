@@ -12,6 +12,6 @@ export class UpdateBrandController{
         const tokenId = request.headers.authorization || "";
         const updateBrandUseCase = container.resolve(UpdateBrandUseCase);
         await updateBrandUseCase.execute(data, tokenId);
-        return response.status(204).json({message: "Criado com sucesso!"}) 
+        return response.status(200).json({message: "Atualizado com sucesso!", data}) 
     }
 }

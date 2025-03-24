@@ -11,6 +11,6 @@ export class UpdateModelController{
         const tokenId = request.headers.authorization || "";
         const updateModelUseCase = container.resolve(UpdateModelUseCase);
         await  updateModelUseCase.execute(data, tokenId);
-        return response.status(204).json({message: "Atualizado com sucesso"})
+        return response.status(200).json({message: "Atualizado com sucesso", data})
     }
 }

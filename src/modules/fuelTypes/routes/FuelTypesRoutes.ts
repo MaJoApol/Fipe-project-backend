@@ -15,7 +15,7 @@ export const fuelTypesRoutes = Router()
 
 
 fuelTypesRoutes.post("/create", createFuelTypeController.handle);
-fuelTypesRoutes.delete("/:id", deleteFuelTypeController.handle);
+fuelTypesRoutes.delete("/delete/:id", deleteFuelTypeController.handle);
 fuelTypesRoutes.put("/update/:id", updateFuelTypeController.handle);
 fuelTypesRoutes.post("/list", listFuelTypesController.handle)
 

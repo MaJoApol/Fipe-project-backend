@@ -11,7 +11,7 @@ export class UpdateUserUseCase{
         private usersRepository: IUsersRepository
     ){}
 
-    async execute(data: UpdateUserDTO, request: Request, tokenId: string){
+    async execute(data: UpdateUserDTO, tokenId: string){
         if (!tokenId)
         {
             throw new Error("Token inexistente.")

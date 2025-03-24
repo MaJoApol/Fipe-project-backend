@@ -15,15 +15,10 @@ export class CreateBrandUseCase{
         if ((brandExists).length > 0){
             throw new Error ("Marca já existe")
         }
-
-        const createBrand: CreateBrandDTO = {
-            name: data.name
-        }
-
-        if(tokenId !== ''){
-            const creatorId = findTokenId(tokenId);
-            createBrand.createdById = creatorId;
-        }
-        return await this.brandsRepository.create(createBrand)
+        
+        const creatorId = findTokenId(tokenId);
+        data.createdById = creatorId
+            
+        return await this.brandsRepository.create(data)
     }
 }

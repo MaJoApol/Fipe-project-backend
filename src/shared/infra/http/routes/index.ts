@@ -5,6 +5,7 @@ import { userRoutes } from "../../../../modules/users/routes/UsersRoutes";
 import { authenticateRoutes } from "../../../../modules/users/routes/AuthenticateRoutes";
 import { brandsRoutes } from "../../../../modules/brands/routes/BrandsRoutes";
 import { modelsRoutes } from "../../../../modules/models/routes/ModelsRoutes";
+import { vehiclesRoutes } from "../../../../modules/vehicles/routes/VehiclesRoutes";
 
 
 export const routes = Router();
@@ -14,5 +15,5 @@ routes.use("/auth", authenticateRoutes)
 routes.use("/users", userRoutes);
 routes.use("/brands", brandsRoutes)
 routes.use("/models", modelsRoutes)
-
+routes.use("/vehicles", vehiclesRoutes)
 

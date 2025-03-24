@@ -42,7 +42,7 @@ export class UsersRepository implements IUsersRepository{
 
     async findById(id: string): Promise<UsersDTO>{
         return (await prisma.users.findUnique({
-            where: {id}
+            where: {id, isDeleted: false}
         })) as UsersDTO;
     }
     
@@ -50,14 +50,15 @@ export class UsersRepository implements IUsersRepository{
         return (await prisma.users.findMany({
             where: {
                 nationalId: data.nationalId,
-                email: data.email
+                email: data.email,
+                isDeleted: false
             }
         }));
     }
 
     async findByEmail(email: string): Promise<UsersDTO>{
         return (await prisma.users.findUnique({
-            where: {email: email}
+            where: {email: email, isDeleted: false}
         })) as UsersDTO;
     }
 

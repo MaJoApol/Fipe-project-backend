@@ -12,7 +12,6 @@ export class ModelsRepository implements IModelsRepository{
 
     async update(data: UpdateModelDTO): Promise<ModelDTO>{
         data.updatedAt = new Date();
-        console.log(data)
         return (await prisma.models.update({
             where: {id: data.id},
             data
@@ -31,7 +30,7 @@ export class ModelsRepository implements IModelsRepository{
 
     async findById(id: string): Promise<ModelDTO>{
         return ( await prisma.models.findUnique({
-            where: {id}
+            where: {id, isDeleted: false}
         })) as ModelDTO;
     }
 
