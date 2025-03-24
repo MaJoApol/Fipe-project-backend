@@ -2,11 +2,10 @@
 import { UsersDTO } from "../../../dtos/UsersDTO";
 import { prisma } from "../../../../../shared/infra/prisma";
 import { UpdateUserDTO } from "../../../dtos/UpdateUserDTO";
-import { FuelTypes } from "@prisma/client";
-import { AuthenticateUserDTO } from "../../../dtos/AuthenticateUserDTO";
 import { CreateUserDTO } from "../../../dtos/CreateUserDTO";
+import { IUsersRepository } from "../../../repositories/IUsersRepository";
 
-export class UsersRepository{
+export class UsersRepository implements IUsersRepository{
    
     async create(data: CreateUserDTO): Promise<UsersDTO>{
         return (await prisma.users.create({data})) as UsersDTO;
@@ -25,7 +24,7 @@ export class UsersRepository{
             where: {id},
             data: {
                 isDeleted: true,
-                deletedBy: performer,
+                deletedById: performer,
                 deletedAt: new Date()
             }
         }) as UsersDTO

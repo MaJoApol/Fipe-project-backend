@@ -24,9 +24,9 @@ model Users {
   token      String?   @unique
 
   isDeleted  Boolean   @default(false)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime?
-  deletedAt  DateTime?
+  createdAt  DateTime  @default(now()) 
+  updatedAt  DateTime? 
+  deletedAt  DateTime? 
 
   createdById  String?    @db.Uuid             
   createdBy    Users?     @relation("createdUsers",fields: [createdById], references: [id])   
@@ -64,10 +64,10 @@ model FuelTypes{
   name    String
   abbreviation String
 
-  isDeleted    Boolean   @default(false)      
+  isDeleted    Boolean   @default(false) 
   createdAt    DateTime  @default(now())      
-  updatedAt    DateTime?
-  deletedAt    DateTime?
+  updatedAt    DateTime? 
+  deletedAt    DateTime? 
 
   createdById  String?    @db.Uuid             
   createdBy    Users?     @relation("createdFuelTypes", fields: [createdById], references: [id])   
@@ -87,9 +87,9 @@ model Brands{
   fipeCode   String?
 
   isDeleted  Boolean   @default(false)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime?
-  deletedAt  DateTime?
+  createdAt  DateTime  @default(now()) 
+  updatedAt  DateTime? 
+  deletedAt  DateTime? 
 
   createdById  String?    @db.Uuid             
   createdBy    Users?     @relation("createdBrands", fields: [createdById], references: [id])   
@@ -107,14 +107,14 @@ model Models{
   id        String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid 
   name      String
   fipeCode  String? 
-  brandsId  String     @db.Uuid 
+  brandId  String     @db.Uuid 
   
-  brands    Brands     @relation(fields: [brandsId], references: [id])    
+  brands    Brands     @relation(fields: [brandId], references: [id])    
 
   isDeleted  Boolean   @default(false)
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime?
-  deletedAt  DateTime?
+  createdAt  DateTime  @default(now()) 
+  updatedAt  DateTime? 
+  deletedAt  DateTime? 
 
   createdById  String?    @db.Uuid             
   createdBy    Users?     @relation("createdModels", fields: [createdById], references: [id])   
@@ -133,9 +133,9 @@ model Vehicles{
   id             String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   fipeCode       String? 
   value          Int
-  referenceMonth DateTime? @db.Date
-  referenceYear  String?
-  vehicleYear    String    @unique
+  referenceMonth Int 
+  referenceYear  Int
+  vehicleYear    Int    @unique
 
   modelId        String    @db.Uuid    
   model          Models?    @relation(fields: [modelId], references: [id])
@@ -144,9 +144,9 @@ model Vehicles{
   fuelType       FuelTypes? @relation(fields: [fuelTypeId], references: [id])
 
   isDeleted    Boolean   @default(false)      
-  createdAt    DateTime  @default(now())      
-  updatedAt    DateTime?
-  deletedAt    DateTime?
+  createdAt    DateTime  @default(now())     
+  updatedAt    DateTime? 
+  deletedAt    DateTime? 
 
   createdById  String?    @db.Uuid             
   createdBy    Users?     @relation("createdVehicles", fields: [createdById], references: [id])   

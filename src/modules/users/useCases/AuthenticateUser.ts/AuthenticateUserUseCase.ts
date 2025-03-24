@@ -46,7 +46,7 @@ export class AuthenticateUserUseCase{
             auth.secret_token,
             {
                 subject: existingUser.id,
-                expiresIn: "25d"
+                expiresIn: "15m"
             });
         
         const refreshToken = sign(
@@ -56,7 +56,7 @@ export class AuthenticateUserUseCase{
             auth.secret_refresh_token,
             {
                 subject: existingUser.id,
-                expiresIn: "15d"
+                expiresIn: "5d"
             });
 
         const expire_in_token = addDays(auth.expires_in_token_days).getTime(); // aqui ele pega o tempo que vai levar até expirar em milissegundos

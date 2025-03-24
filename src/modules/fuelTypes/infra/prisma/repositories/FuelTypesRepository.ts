@@ -2,9 +2,10 @@ import { prisma } from "../../../../../shared/infra/prisma";
 import { CreateFuelTypesDTO } from "../../../dtos/CreateFuelTypesDTO";
 import { FuelTypesDTO } from "../../../dtos/FuelTypesDTO";
 import { UpdateFuelTypesDTO } from "../../../dtos/UpdateFuelTypesDTO";
+import { IFuelTypesRepository } from "../../../repositories/IFuelTypesRepository";
 
 
-export class FuelTypesRepository {
+export class FuelTypesRepository implements IFuelTypesRepository {
     async create(data: CreateFuelTypesDTO): Promise<FuelTypesDTO> {
         return (await prisma.fuelTypes.create({
             data

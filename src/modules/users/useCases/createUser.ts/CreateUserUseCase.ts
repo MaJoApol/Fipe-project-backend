@@ -3,8 +3,6 @@ import { IUsersRepository } from "../../repositories/IUsersRepository";
 import { CreateUserDTO } from "../../dtos/CreateUserDTO";
 import { hash } from "bcrypt";
 import { findTokenId } from "../../../../utils/findTokenId";
-import { Request } from "express";
-
 
 @injectable()
 export class CreateUserUseCase{
@@ -32,9 +30,9 @@ export class CreateUserUseCase{
         
         if(tokenId !== ''){
             const creatorId = findTokenId(tokenId);
-            createUser.createdBy = creatorId   
+            createUser.createdById = creatorId;   
         }
-
+        
         return await this.usersRepository.create(createUser);
     }
 

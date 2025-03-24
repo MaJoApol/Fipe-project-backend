@@ -8,6 +8,7 @@ export function findTokenId(authHeader: string | any){
         throw new Error("Token Missing");
     }
     const [, token] =  authHeader.split(" ");
+
     try {
         const { sub: userId } = verify(token, auth.secret_token) as {sub: string};
 

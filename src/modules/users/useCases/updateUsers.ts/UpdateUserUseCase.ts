@@ -23,7 +23,7 @@ export class UpdateUserUseCase{
         }
 
         const performedById = findTokenId(tokenId);
-        data.updatedBy = performedById
+        data.updatedById = performedById
 
         if(data.id !== performedById && data.password){
             throw new Error("Você só pode alterar a senha do seu próprio usuário.")

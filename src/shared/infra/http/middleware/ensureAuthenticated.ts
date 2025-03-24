@@ -6,7 +6,7 @@ export async function ensureAunthenticated(request: Request, response: Response,
 
     try {
         const userId = findTokenId(request.headers.authorization)
-    
+
         const usersRepository = new UsersRepository();
         const user = await usersRepository.findById(userId);
         if (user){

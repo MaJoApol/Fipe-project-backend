@@ -8,7 +8,7 @@ export class AuthenticateUserController{
     async handle(request: Request, response: Response): Promise<Response>{
         const data: AuthenticateUserDTO = request.body;
         const authenticateUserUseCase = container.resolve(AuthenticateUserUseCase);
-        await authenticateUserUseCase.execute(data);
-        return response.status(200).json({})
+        const authResponse = await authenticateUserUseCase.execute(data);
+        return response.status(200).json({authResponse})
     }
 }

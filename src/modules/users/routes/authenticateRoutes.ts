@@ -10,6 +10,6 @@ const createUserController = new CreateUserController;
 
 export const authenticateRoutes = Router();
 
-authenticateRoutes.use("/login", authenticateUserController.handle)
-authenticateRoutes.use("/register", createUserController.handle)
+authenticateRoutes.post("/login", authenticateUserController.handle)
+authenticateRoutes.post("/register", createUserController.handle)
 
