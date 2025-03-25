@@ -1,31 +1,31 @@
 import "reflect-metadata";
 import { describe } from "node:test";
-import { BrandsRepository } from "../../../infra/prisma/repositories/brandsRepository";
-import { BrandDTO } from "../../../dtos/BrandDTO";
 import { findTokenId } from "../../../../../utils/findTokenId";
-import { DeleteBrandUseCase } from "../../../useCases/deleteBrands/DeleteBrandUseCase";
-import { UpdateBrandDTO } from "../../../dtos/UpdateBrandDTO";
+import { DeleteFuelTypesUseCase } from "../../../useCases/deleteFuelTypes/DeleteFuelTypesUseCase";
+import { FuelTypesRepository } from "../../../infra/prisma/repositories/FuelTypesRepository";
+import { FuelTypesDTO } from "../../../dtos/FuelTypesDTO";
+
 
 jest.mock("../../../../../utils/findTokenId"); // simulado a função findTokenId
 
-describe("Delete Brand Use Case", () => {
+describe("Delete Fuel Type Use Case", () => {
 
-    let deleteBrandUseCase: DeleteBrandUseCase;
-    let brandsRepositoryMock: jest.Mocked<BrandsRepository>;
+    let deleteFuelTypeUseCase: DeleteFuelTypesUseCase;
+    let fuelTypesRepositoryMock: jest.Mocked<FuelTypesRepository>;
 
     beforeEach(() =>{
-        brandsRepositoryMock = {
+        fuelTypesRepositoryMock = {
             findById: jest.fn(),
             remove: jest.fn(),
-        } as unknown as jest.Mocked<BrandsRepository>;
+        } as unknown as jest.Mocked<FuelTypesRepository>;
     
-        deleteBrandUseCase = new DeleteBrandUseCase(brandsRepositoryMock);
+        deleteFuelTypeUseCase = new DeleteFuelTypesUseCase(fuelTypesRepositoryMock);
     })
     
-    const mockedData: BrandDTO = {
+    const mockedData: FuelTypesDTO = {
         name: "TesteName",
         id: "1",
-        fipeCode: null,
+        abbreviation: "tes",
         isDeleted: false,
         createdAt: new Date(),
         updatedAt: null,
@@ -36,30 +36,30 @@ describe("Delete Brand Use Case", () => {
     }
 
 
-    it("Deve deleter uma nova marca com sucesso ✅", async () => {
+    it("Deve deleter uma combustível com sucesso ✅", async () => {
 
-        brandsRepositoryMock.findById.mockResolvedValue(mockedData);
-        brandsRepositoryMock.remove.mockResolvedValue();
+        fuelTypesRepositoryMock.findById.mockResolvedValue(mockedData);
+        fuelTypesRepositoryMock.remove.mockResolvedValue();
         (findTokenId as jest.Mock).mockReturnValue("valid-token")
 
         const id: string = "1"
-        const result = await deleteBrandUseCase.execute(id, "valid-token")
+        const result = await deleteFuelTypeUseCase.execute(id, "valid-token")
 
-        expect(brandsRepositoryMock.findById).toHaveBeenCalledWith("1");
+        expect(fuelTypesRepositoryMock.findById).toHaveBeenCalledWith("1");
         expect(findTokenId).toHaveBeenCalledWith("valid-token");
-        expect(brandsRepositoryMock.remove).toHaveBeenCalledWith(id, "valid-token");
+        expect(fuelTypesRepositoryMock.remove).toHaveBeenCalledWith(id, "valid-token");
         expect(result).toEqual(undefined);
     })
 
-    it("Não deve permitir deletar onde não há marcas ❌", async () => {
+    it("Não deve permitir deletar onde não há combustível ❌", async () => {
 
-        brandsRepositoryMock.findById.mockResolvedValue(null);
+        fuelTypesRepositoryMock.findById.mockResolvedValue(null);
         const id: string = "1"
 
-        await expect(deleteBrandUseCase.execute(id, "valid-token")).rejects.toThrow("Marca não existe!");
+        await expect(deleteFuelTypeUseCase.execute(id, "valid-token")).rejects.toThrow("Combustível não existe!");
        
         expect(findTokenId).toHaveBeenCalledWith("valid-token");
-        expect(brandsRepositoryMock.remove).not.toHaveBeenCalled();
+        expect(fuelTypesRepositoryMock.remove).not.toHaveBeenCalled();
     })
 
 })

@@ -15,7 +15,7 @@ describe("Update Brand Use Case", () => {
 
     beforeEach(() =>{
         brandsRepositoryMock = {
-            findExistingBrands: jest.fn(),
+            findById: jest.fn(),
             update: jest.fn(),
         } as unknown as jest.Mocked<BrandsRepository>;
     
@@ -51,14 +51,14 @@ describe("Update Brand Use Case", () => {
 
     it("Deve atualizar uma nova marca com sucesso ✅", async () => {
 
-        brandsRepositoryMock.findExistingBrands.mockResolvedValue([mockedData]);
+        brandsRepositoryMock.findById.mockResolvedValue(mockedData);
         brandsRepositoryMock.update.mockResolvedValue(mockedDataUpdate);
         (findTokenId as jest.Mock).mockReturnValue("valid-token")
 
         const data: UpdateBrandDTO = { name: "TesteName", id: "1"}
         const result = await updateBrandUseCase.execute(data, "valid-token")
 
-        expect(brandsRepositoryMock.findExistingBrands).toHaveBeenCalledWith("1");
+        expect(brandsRepositoryMock.findById).toHaveBeenCalledWith("1");
         expect(findTokenId).toHaveBeenCalledWith("valid-token");
         expect(brandsRepositoryMock.update).toHaveBeenCalledWith(data);
         expect(result).toEqual(mockedDataUpdate);
@@ -66,7 +66,7 @@ describe("Update Brand Use Case", () => {
 
     it("Não deve permitir atualizar onde não há marcas ❌", async () => {
 
-        brandsRepositoryMock.findExistingBrands.mockResolvedValue([]);
+        brandsRepositoryMock.findById.mockResolvedValue(null);
         const data: UpdateBrandDTO = { name: "TesteName", id: "1"}
 
         await expect(updateBrandUseCase.execute(data, "valid-token")).rejects.toThrow("Marca não existe!");

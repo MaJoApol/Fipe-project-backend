@@ -5,16 +5,12 @@ import { container } from "tsyringe";
 import { Request, Response } from "express";
 import { DeleteFuelTypesUseCase } from "../../../useCases/deleteFuelTypes/DeleteFuelTypesUseCase";
 import { DeleteFuelTypesController } from "../../../useCases/deleteFuelTypes/DeleteFuelTypesController";
-import { FuelTypesDTO } from "../../../dtos/FuelTypesDTO";
-import { UpdateFuelTypesDTO } from "../../../dtos/UpdateFuelTypesDTO";
 
-
-
-describe("Delete Fuel Type Controller", () => {
+describe("Delete Brands Controller", () => {
     let deleteFuelTypeUseCaseMock: jest.Mocked<DeleteFuelTypesUseCase>;
-    let deleteFuelTypesControllerMock: DeleteFuelTypesController;
+    let deleteFuelTypeControllerMock: DeleteFuelTypesController;
     let request: Partial<Request>;
-    let response: Response;
+    let response: Partial<Response>;
 
     beforeEach(()=>{
         deleteFuelTypeUseCaseMock = {
@@ -23,7 +19,7 @@ describe("Delete Fuel Type Controller", () => {
 
         jest.spyOn(container, "resolve").mockReturnValue(deleteFuelTypeUseCaseMock);
 
-        deleteFuelTypesControllerMock = new DeleteFuelTypesController();
+        deleteFuelTypeControllerMock = new DeleteFuelTypesController();
 
         request = {
             headers: { authorization: "token123"},
@@ -33,38 +29,24 @@ describe("Delete Fuel Type Controller", () => {
         response = {
             status: jest.fn().mockReturnThis(),
             json: jest.fn()
-        } as unknown as jest.Mocked<Response>;
+        };
     });
-
-        const mockedData: FuelTypesDTO = {
-            name: "Teste",
-            id: "1",
-            abbreviation: "tes",
-            isDeleted: false,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            deletedAt: new Date(),
-            createdById: null,
-            updatedById: null,
-            deletedById: "token123"
-        }
     
 
     it("Deve chamar o Use Case e retornar 200", async () => {
         deleteFuelTypeUseCaseMock.execute.mockResolvedValue();
-        await deleteFuelTypesControllerMock.handle(request as Request, response);
-        const data: UpdateFuelTypesDTO = {name: "Teste", id: "1"} 
+        await deleteFuelTypeControllerMock.handle(request as Request, response as Response);
 
-        expect(deleteFuelTypeUseCaseMock.execute).toHaveBeenCalledWith(request.body, "token123");
-        expect(response.status).toHaveBeenCalledWith(200);
-        expect(response.json).toHaveBeenCalledWith({message: "Atualizado com sucesso!", data})
+        expect(deleteFuelTypeUseCaseMock.execute).toHaveBeenCalledWith(request.params?.id, request.headers?.authorization);
+        expect(response.status).toHaveBeenCalledWith(204);
+        expect(response.json).toHaveBeenCalledWith({message: "Deletado com sucesso!"})
     })
 
     it("deve retornar status 400 se o use case lançar um erro", async () => {
-        const errorMessage = "Erro ao atualizar";
+        const errorMessage = "Erro ao deletar.";
         deleteFuelTypeUseCaseMock.execute.mockRejectedValue(new Error(errorMessage));
 
-        await deleteFuelTypesControllerMock.handle(request as Request, response);
+        await deleteFuelTypeControllerMock.handle(request as Request, response as Response);
 
         expect(response.status).toHaveBeenCalledWith(400);
         expect(response.json).toHaveBeenCalledWith({ message: errorMessage });

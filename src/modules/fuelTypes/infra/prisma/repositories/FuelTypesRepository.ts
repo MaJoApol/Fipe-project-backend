@@ -31,7 +31,7 @@ export class FuelTypesRepository implements IFuelTypesRepository {
         })) as FuelTypesDTO
     }
 
-    async findById(id: string): Promise<FuelTypesDTO>{
+    async findById(id: string): Promise<FuelTypesDTO | null>{
         const fuelTypes = (await prisma.fuelTypes.findUnique({
             where: {id, isDeleted: false}
         })) as FuelTypesDTO;

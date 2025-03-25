@@ -7,7 +7,7 @@ export interface IFuelTypesRepository{
     create(data: CreateFuelTypesDTO): Promise<FuelTypesDTO>;
     remove(id: string, performer: string): Promise<void>;
     update(data: UpdateFuelTypesDTO): Promise<FuelTypesDTO>;
-    findById(id: string): Promise<FuelTypesDTO>;
+    findById(id: string): Promise<FuelTypesDTO | null>;
     findExistingFuelType(data: CreateFuelTypesDTO): Promise<FuelTypesDTO[]>;
     list(data: {page: number}): Promise<FuelTypesDTO[]>;
 }

@@ -1,35 +1,33 @@
 import "reflect-metadata";
 import { describe } from "node:test";
-import { ListBrandUseCase } from "../../../useCases/listBrands/ListBrandsUseCase";
-import { BrandsRepository } from "../../../infra/prisma/repositories/brandsRepository";
-import { CreateBrandDTO } from "../../../dtos/CreateBrandDTO";
-import { BrandDTO } from "../../../dtos/BrandDTO";
-import { findTokenId } from "../../../../../utils/findTokenId";
+import { ListFuelTypesUseCase } from "../../../useCases/listFuelTypes/listFuelTypesUseCase";
+import { FuelTypesRepository } from "../../../infra/prisma/repositories/FuelTypesRepository";
+import { FuelTypesDTO } from "../../../dtos/FuelTypesDTO";
 
 jest.mock("../../../../../utils/findTokenId"); // simulado a função findTokenId
 
 describe("List Brand Use Case", () => {
 
-    let listBrandUseCase: ListBrandUseCase;
-    let brandsRepositoryMock: jest.Mocked<BrandsRepository>;
+    let listFuelTypeUseCase: ListFuelTypesUseCase;
+    let fuelTypesRepositoryMock: jest.Mocked<FuelTypesRepository>;
 
     beforeEach(() =>{
-        brandsRepositoryMock = {
+        fuelTypesRepositoryMock = {
             list: jest.fn(),
-        } as unknown as jest.Mocked<BrandsRepository>;
+        } as unknown as jest.Mocked<FuelTypesRepository>;
     
-        listBrandUseCase = new ListBrandUseCase(brandsRepositoryMock);
+        listFuelTypeUseCase = new ListFuelTypesUseCase(fuelTypesRepositoryMock);
     })
 
     
     function MockedData(pageNumber: number){
-        var mockedData: BrandDTO[] = []
+        var mockedData: FuelTypesDTO[] = []
         for (var i = 0; i < pageNumber; i++){
             mockedData.push(
                 {
                     id: `brand-${i + 1}`,
                     name: `Brand ${i + 1}`,
-                    fipeCode: null,
+                    abbreviation: `abbrev ${i + 1}`,
                     createdAt: new Date(),
                     updatedAt: new Date(),
                     isDeleted: false,
@@ -43,25 +41,26 @@ describe("List Brand Use Case", () => {
         return mockedData
     } 
 
-    it("Deve criar uma nova marca com sucesso ✅", async () => {
+    it("Deve criar mostrar os dados sucesso ✅", async () => {
         const mockedData = MockedData(5);
-        brandsRepositoryMock.list.mockResolvedValue(mockedData);
+        fuelTypesRepositoryMock.list.mockResolvedValue(mockedData);
         const page = 1;
         const pageSize = 5;
-        const result = await listBrandUseCase.execute(page, pageSize);
-        console.log(result)
+        const result = await listFuelTypeUseCase.execute(page, pageSize);
 
-        expect(brandsRepositoryMock.list).toHaveBeenCalledWith(page, pageSize);
+        expect(fuelTypesRepositoryMock.list).toHaveBeenCalledWith(page, pageSize);
         expect(result).toEqual(mockedData);
         expect(result.length).toBe(pageSize);
     })
 
-    // it("Não deve permitir a criação de marcas iguais ❌", async () => {
-    //     brandsRepositoryMock.findExistingBrands.mockResolvedValue([mockedData]);
-    //     const data: CreateBrandDTO = {name: "TesteName"}
+    it("Deve retornar uma lista vazia caso não haja marcas ❌", async () => {
+        fuelTypesRepositoryMock.list.mockResolvedValue([]);
 
-    //     await expect(listBrandUseCase.execute(data, "valid-token")).rejects.toThrow("Marca já existe");
-    //     expect(brandsRepositoryMock.create).not.toHaveBeenCalled();
-    // })
+        const page = 1;
+        const pageSize = 5;
+        const result = await listFuelTypeUseCase.execute(page, pageSize);
+        expect(fuelTypesRepositoryMock.list).toHaveBeenCalledWith(page, pageSize);
+        expect(result).toEqual([]);
+    })
 
 })

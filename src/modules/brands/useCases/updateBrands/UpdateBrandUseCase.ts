@@ -10,8 +10,8 @@ export class UpdateBrandUseCase{
         private brandsRepository: BrandsRepository
     ){}
     async execute(data: UpdateBrandDTO, tokenId: string){
-        const brandExists = await this.brandsRepository.findExistingBrands(data.id)
-        if(!brandExists.length){
+        const brandExists = await this.brandsRepository.findById(data.id)
+        if(!brandExists){
             throw new Error("Marca não existe!")
         }
 

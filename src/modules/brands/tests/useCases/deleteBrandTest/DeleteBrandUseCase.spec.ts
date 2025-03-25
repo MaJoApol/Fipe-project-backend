@@ -4,7 +4,6 @@ import { BrandsRepository } from "../../../infra/prisma/repositories/brandsRepos
 import { BrandDTO } from "../../../dtos/BrandDTO";
 import { findTokenId } from "../../../../../utils/findTokenId";
 import { DeleteBrandUseCase } from "../../../useCases/deleteBrands/DeleteBrandUseCase";
-import { UpdateBrandDTO } from "../../../dtos/UpdateBrandDTO";
 
 jest.mock("../../../../../utils/findTokenId"); // simulado a função findTokenId
 
@@ -30,9 +29,9 @@ describe("Delete Brand Use Case", () => {
         createdAt: new Date(),
         updatedAt: null,
         deletedAt: null,
-        createdById: "valid-token",
+        createdById: null,
         updatedById: null,
-        deletedById: null
+        deletedById: "valid-token"
     }
 
 
