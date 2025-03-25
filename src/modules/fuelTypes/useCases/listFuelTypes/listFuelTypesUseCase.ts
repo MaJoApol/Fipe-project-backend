@@ -9,8 +9,8 @@ export class ListFuelTypesUseCase{
         @inject("FuelTypesRepository")
         private fuelTypesRepository: IFuelTypesRepository
     ){}
-    async execute(): Promise<FuelTypesDTO[]>{
-        const fuelTypes = await this.fuelTypesRepository.list({page: 1});
+    async execute(page: number): Promise<FuelTypesDTO[]>{
+        const fuelTypes = await this.fuelTypesRepository.list(page: 1);
         return fuelTypes;
     }
 }
