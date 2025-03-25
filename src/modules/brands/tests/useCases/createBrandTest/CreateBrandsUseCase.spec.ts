@@ -8,47 +8,6 @@ import { findTokenId } from "../../../../../utils/findTokenId";
 
 jest.mock("../../../../../utils/findTokenId"); // simulado a função findTokenId
 
-// describe("CreateBrandUseCase", () => {
-//   let createBrandUseCase: CreateBrandUseCase;
-//   let brandsRepositoryMock: jest.Mocked<BrandsRepository>;
-
-//   beforeEach(() => {      // o q vai fazer antes dps testes start
-//     brandsRepositoryMock = {
-//       findExistingBrands: jest.fn(), // dizer que é uma função mockada (de teste)
-//       create: jest.fn(),
-//     } as unknown as jest.Mocked<BrandsRepository>;
-
-//     createBrandUseCase = new CreateBrandUseCase(brandsRepositoryMock);
-//   });
-
-
-//   it("Deve criar uma nova marca com sucesso ✅", async () => {
-
-//     brandsRepositoryMock.findExistingBrands.mockResolvedValue([]); // simula que a marca Não existe no banco
-    
-//     brandsRepositoryMock.create.mockResolvedValue({id: "1", name: "Nike", fipeCode: "12345", createdAt: new Date(), updatedAt: new Date(), }); // 🔹 Simula a criação da marca no banco de dados
-
-//     (findTokenId as jest.Mock).mockReturnValue("user123");
-
-//     const data: CreateBrandDTO = { name: "Nike" };
-//     const result = await createBrandUseCase.execute(data, "valid-token");
-
-//     expect(result).toHaveProperty("id");
-//     expect(result.name).toBe("Nike");
-//     expect(result.createdById).toBe("user123");
-//   });
-
-//   it("não deve criar uma marca se já existir", async () => {
-//     brandsRepositoryMock.findExistingBrands.mockResolvedValue([{ id: "1", name: "Nike" }]);
-
-//     const data: CreateBrandDTO = { name: "Nike" };
-
-//     await expect(createBrandUseCase.execute(data, "valid-token")).rejects.toThrow("Marca já existe");
-//   });
-// });
-
-
-
 describe("Create Brand Use Case", () => {
 
     let createBrandUseCase: CreateBrandUseCase;
@@ -80,7 +39,6 @@ describe("Create Brand Use Case", () => {
 
     it("Deve criar uma nova marca com sucesso ✅", async () => {
 
-    
         brandsRepositoryMock.findExistingBrands.mockResolvedValue([]);
         brandsRepositoryMock.create.mockResolvedValue(mockedData);
         (findTokenId as jest.Mock).mockReturnValue("valid-token")
@@ -102,3 +60,85 @@ describe("Create Brand Use Case", () => {
     })
 
 })
+
+
+// ----------------- OUTROS EXEMPLOS DE COISAS PARA SEREM TESTADAS -------------------------
+
+// it("deve criar uma nova marca com sucesso", async () => {
+//     const mockData: CreateBrandDTO = {
+//       name: "Nova Marca",
+//       fipeCode: "1234",
+//     };
+
+//     mockBrandRepository.findByName.mockResolvedValue(null);
+//     mockBrandRepository.create.mockResolvedValue(createMockBrand(mockData));
+
+//     const result = await createBrandUseCase.execute(mockData, "usuario-id");
+
+//     expect(mockBrandRepository.findByName).toHaveBeenCalledWith("Nova Marca");
+//     expect(mockBrandRepository.create).toHaveBeenCalledWith(mockData, "usuario-id");
+//     expect(result.name).toBe("Nova Marca");
+//     expect(result.fipeCode).toBe("1234");
+//   });
+
+//   it("deve criar marca sem código fipe quando não fornecido", async () => {
+//     const mockData: CreateBrandDTO = {
+//       name: "Marca Sem Fipe",
+//     };
+
+//     mockBrandRepository.findByName.mockResolvedValue(null);
+//     mockBrandRepository.create.mockResolvedValue(createMockBrand({ 
+//       ...mockData, 
+//       fipeCode: undefined 
+//     }));
+
+//     const result = await createBrandUseCase.execute(mockData, "usuario-id");
+
+//     expect(result.name).toBe("Marca Sem Fipe");
+//     expect(result.fipeCode).toBeUndefined();
+//   });
+
+//   it("deve lançar erro quando marca com mesmo nome já existe", async () => {
+//     const mockData: CreateBrandDTO = {
+//       name: "Marca Existente",
+//     };
+
+//     mockBrandRepository.findByName.mockResolvedValue(createMockBrand());
+
+//     await expect(
+//       createBrandUseCase.execute(mockData, "usuario-id")
+//     ).rejects.toThrow(ConflictError);
+
+//     expect(mockBrandRepository.create).not.toHaveBeenCalled();
+//   });
+
+//   it("deve incluir createdBy no registro criado", async () => {
+//     const mockData: CreateBrandDTO = {
+//       name: "Marca com Criador",
+//     };
+
+//     mockBrandRepository.findByName.mockResolvedValue(null);
+//     mockBrandRepository.create.mockResolvedValue(
+//       createMockBrand({ ...mockData, createdById: "usuario-especifico" })
+//     );
+
+//     const result = await createBrandUseCase.execute(mockData, "usuario-especifico");
+
+//     expect(result.createdById).toBe("usuario-especifico");
+//   });
+
+//   it("deve garantir que campos obrigatórios estão presentes", async () => {
+//     const mockData: CreateBrandDTO = {
+//       name: "Marca Válida",
+//     };
+
+//     mockBrandRepository.findByName.mockResolvedValue(null);
+//     mockBrandRepository.create.mockResolvedValue(createMockBrand(mockData));
+
+//     const result = await createBrandUseCase.execute(mockData, "usuario-id");
+
+//     expect(result.name).toBeDefined();
+//     expect(result.createdAt).toBeDefined();
+//     expect(result.id).toBeDefined();
+//   });
+// });

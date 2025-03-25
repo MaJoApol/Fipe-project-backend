@@ -9,8 +9,8 @@ export class ListBrandUseCase{
         @inject("BrandsRepository")
         private brandsRepository: IBrandsRepository
     ){}
-    async execute(): Promise<BrandDTO[]>{
-        const brands = await this.brandsRepository.list({page: 1});
+    async execute(page: number, pageSize: number): Promise<BrandDTO[]>{
+        const brands = await this.brandsRepository.list(page, pageSize);
         return brands;
     }
 }

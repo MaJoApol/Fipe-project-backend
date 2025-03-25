@@ -28,7 +28,7 @@ export class BrandsRepository implements IBrandsRepository{
         })
     }
 
-    async findById(id: string): Promise<BrandDTO>{
+    async findById(id: string): Promise<BrandDTO | null> {
         return ( await prisma.brands.findUnique({
             where: {id, isDeleted: false}
         })) as BrandDTO;
@@ -40,7 +40,7 @@ export class BrandsRepository implements IBrandsRepository{
         })) as BrandDTO[];
     }
 
-    async list({page}: {page: number}){
+    async list(page: number){
         return (await prisma.brands.findMany({
             skip: (page - 1) * 10,
             take: 10,

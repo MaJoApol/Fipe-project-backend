@@ -6,8 +6,8 @@ import { UpdateBrandDTO } from "../dtos/UpdateBrandDTO";
 export interface IBrandsRepository{
     create(data: CreateBrandDTO): Promise<BrandDTO>;
     update(data: UpdateBrandDTO): Promise<BrandDTO>;
-    list(data: {page: number}): Promise<BrandDTO[]>;
+    list(page: number, pageSize: number): Promise<BrandDTO[]>;
     remove(id: string, performer: string): Promise<void>;
-    findById(id: string): Promise<BrandDTO>;
+    findById(id: string): Promise<BrandDTO | null> ;
     findExistingBrands(name: string): Promise<BrandDTO[]>;
 }
