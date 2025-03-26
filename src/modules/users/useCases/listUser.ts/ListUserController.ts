@@ -4,9 +4,14 @@ import { ListUserUseCase } from "./ListUserUseCase";
 
 export class ListUserController{
     async handle(request: Request, response: Response){
-        const listUserUseCase = container.resolve(ListUserUseCase);
-        const listResponse = await listUserUseCase.execute();
-        return response.status(200).json({listResponse})
+        try {
+            const listUserUseCase = container.resolve(ListUserUseCase);
+            const listResponse = await listUserUseCase.execute();
+            return response.status(200).json({message: "Listado com sucesso!", listResponse})
+        } catch (error) {
+            return response.status(400).json({message: "Erro ao listar."})
+        }
+
     }
 }
 

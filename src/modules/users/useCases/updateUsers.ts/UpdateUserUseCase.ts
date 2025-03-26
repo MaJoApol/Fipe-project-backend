@@ -12,14 +12,10 @@ export class UpdateUserUseCase{
     ){}
 
     async execute(data: UpdateUserDTO, tokenId: string){
-        if (!tokenId)
-        {
-            throw new Error("Token inexistente.")
-        }
+        const userExists = await this.usersRepository.findById(data.id);
 
-        const userExists = this.usersRepository.findById(data.id);
-        if (!userExists){
-            throw new Error("Usuário não existe.")
+        if (userExists === null){
+            throw new Error("Usuário não existe!")
         }
 
         const performedById = findTokenId(tokenId);

@@ -11,7 +11,7 @@ export class CreateUserUseCase{
         private usersRepository: IUsersRepository
     ){}
 
-    async execute(data: CreateUserDTO, tokenId: string){
+    async execute(data: CreateUserDTO, tokenId?: string){
         const existingUser = await this.usersRepository.findExistingUsers(data)
         if(existingUser.length > 0 ){
             throw new Error("Usuário já cadastrado")

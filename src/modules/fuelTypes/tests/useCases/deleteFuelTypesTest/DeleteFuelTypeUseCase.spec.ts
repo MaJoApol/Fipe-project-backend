@@ -26,7 +26,7 @@ describe("Delete Fuel Type Use Case", () => {
         name: "TesteName",
         id: "1",
         abbreviation: "tes",
-        isDeleted: false,
+        isDeleted: true,
         createdAt: new Date(),
         updatedAt: null,
         deletedAt: null,

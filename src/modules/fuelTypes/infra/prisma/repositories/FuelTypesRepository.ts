@@ -49,10 +49,10 @@ export class FuelTypesRepository implements IFuelTypesRepository {
         return fuelTypes;
     }
 
-    async list(page: number){
+    async list(page: number, pageSize: number){
         return (await prisma.fuelTypes.findMany({
-            skip: (page - 1) * 10,
-            take: 10,
+            skip: (page - 1) * pageSize,
+            take: pageSize,
             orderBy:[
                 {
                     createdAt: 'asc'

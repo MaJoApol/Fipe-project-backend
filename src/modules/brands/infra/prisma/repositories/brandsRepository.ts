@@ -40,10 +40,10 @@ export class BrandsRepository implements IBrandsRepository{
         })) as BrandDTO[];
     }
 
-    async list(page: number){
+    async list(page: number, pageSize: number){
         return (await prisma.brands.findMany({
-            skip: (page - 1) * 10,
-            take: 10,
+            skip: (page - 1) * pageSize,
+            take: pageSize,
             orderBy:[
                 {
                     createdAt: 'asc'

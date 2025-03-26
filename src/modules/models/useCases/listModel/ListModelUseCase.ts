@@ -8,8 +8,8 @@ export class ListModelUseCase{
         @inject("ModelsRepository")
         private modelsRepository: IModelsRepository
     ){}
-    async execute(): Promise<ModelDTO[]>{
-        const models = await this.modelsRepository.list({page: 1});
+    async execute(page: number, pageSize: number): Promise<ModelDTO[]>{
+        const models = await this.modelsRepository.list(page = 1, pageSize = 10);
         return models;
     }
 }

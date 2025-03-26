@@ -40,7 +40,7 @@ export class UsersRepository implements IUsersRepository{
         })) as UsersDTO[];
     }
 
-    async findById(id: string): Promise<UsersDTO>{
+    async findById(id: string): Promise<UsersDTO | null>{
         return (await prisma.users.findUnique({
             where: {id, isDeleted: false}
         })) as UsersDTO;

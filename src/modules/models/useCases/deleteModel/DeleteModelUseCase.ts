@@ -9,7 +9,7 @@ export class DeleteModelUseCase{
         private modelsRepository: IModelsRepository
     ){}
     async execute(id: string, tokenId: string): Promise<void>{
-        const modelExists = await this.modelsRepository.findExistingModels(id);
+        const modelExists = await this.modelsRepository.findById(id);
         if(!modelExists){
             throw new Error("Modelo não existe!")
         }

@@ -8,7 +8,7 @@ export class ListVehicleUseCase{
         @inject("VehiclesRepository")
         private vehiclesRepository: VehiclesRepository
     ){}
-    async execute(): Promise<VehicleDTO[]>{
-        return await this.vehiclesRepository.list({page: 1});
+    async execute(page: number, pageSize: number): Promise<VehicleDTO[]>{
+        return await this.vehiclesRepository.list(page = 1, pageSize = 10);
     }
 }

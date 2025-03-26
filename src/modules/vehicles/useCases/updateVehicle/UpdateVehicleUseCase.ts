@@ -10,7 +10,7 @@ export class UpdateVehicleUseCase{
         private vehiclesRepository: IVehiclesRepository
     ){}
     async execute(data: UpdateVehicleDTO, tokenId: string){
-        const vehicleExists = await this.vehiclesRepository.findExistingVehicles(data);
+        const vehicleExists = await this.vehiclesRepository.findById(data.id);
         if(!vehicleExists){
             throw new Error("Veículo não existe!");
         }

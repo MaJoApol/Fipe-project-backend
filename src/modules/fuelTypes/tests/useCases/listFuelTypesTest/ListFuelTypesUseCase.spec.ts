@@ -6,7 +6,7 @@ import { FuelTypesDTO } from "../../../dtos/FuelTypesDTO";
 
 jest.mock("../../../../../utils/findTokenId"); // simulado a função findTokenId
 
-describe("List Brand Use Case", () => {
+describe("List Fuel Type Use Case", () => {
 
     let listFuelTypeUseCase: ListFuelTypesUseCase;
     let fuelTypesRepositoryMock: jest.Mocked<FuelTypesRepository>;
@@ -25,8 +25,8 @@ describe("List Brand Use Case", () => {
         for (var i = 0; i < pageNumber; i++){
             mockedData.push(
                 {
-                    id: `brand-${i + 1}`,
-                    name: `Brand ${i + 1}`,
+                    id: `fuelType-${i + 1}`,
+                    name: `FuelType ${i + 1}`,
                     abbreviation: `abbrev ${i + 1}`,
                     createdAt: new Date(),
                     updatedAt: new Date(),
@@ -42,10 +42,10 @@ describe("List Brand Use Case", () => {
     } 
 
     it("Deve criar mostrar os dados sucesso ✅", async () => {
-        const mockedData = MockedData(5);
+        const mockedData = MockedData(10);
         fuelTypesRepositoryMock.list.mockResolvedValue(mockedData);
         const page = 1;
-        const pageSize = 5;
+        const pageSize = 10;
         const result = await listFuelTypeUseCase.execute(page, pageSize);
 
         expect(fuelTypesRepositoryMock.list).toHaveBeenCalledWith(page, pageSize);
@@ -57,7 +57,7 @@ describe("List Brand Use Case", () => {
         fuelTypesRepositoryMock.list.mockResolvedValue([]);
 
         const page = 1;
-        const pageSize = 5;
+        const pageSize = 10;
         const result = await listFuelTypeUseCase.execute(page, pageSize);
         expect(fuelTypesRepositoryMock.list).toHaveBeenCalledWith(page, pageSize);
         expect(result).toEqual([]);

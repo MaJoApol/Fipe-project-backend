@@ -10,7 +10,7 @@ export class UpdateModelUseCase{
         private modelsRepository: IModelsRepository
     ){}
     async execute(data: UpdateModelDTO, tokenId: string){
-        const modalExists = await this.modelsRepository.findExistingModels(data.id);
+        const modalExists = await this.modelsRepository.findById(data.id);
         if(!modalExists){
             throw new Error("Modelo não existe!");
         }

@@ -17,7 +17,7 @@ export class DeleteUserUseCase{
         const usersExists = await this.usersRepository.findById(id);
 
         if (!usersExists){
-            throw new Error("Usuário não existe")
+            throw new Error("Usuário não existe!")
         }
 
         const performedById = findTokenId(tokenId);

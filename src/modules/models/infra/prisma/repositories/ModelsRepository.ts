@@ -28,7 +28,7 @@ export class ModelsRepository implements IModelsRepository{
         })
     }
 
-    async findById(id: string): Promise<ModelDTO>{
+    async findById(id: string): Promise<ModelDTO | null>{
         return ( await prisma.models.findUnique({
             where: {id, isDeleted: false}
         })) as ModelDTO;
@@ -40,10 +40,10 @@ export class ModelsRepository implements IModelsRepository{
         })) as ModelDTO[];
     }
 
-    async list({page}: {page: number}){
+    async list(pageSize: number, page: number){
         return (await prisma.models.findMany({
-            skip: (page - 1) * 10,
-            take: 10,
+            skip: (page - 1) * pageSize,
+            take: pageSize,
             orderBy:[
                 {
                     createdAt: 'asc'

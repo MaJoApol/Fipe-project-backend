@@ -10,7 +10,7 @@ export class DeleteVehicleUseCase{
     ){}
     async execute(id: string, tokenId: string){
         const vehicleExists =  await this.vehiclesRepository.findById(id);
-        if(!vehicleExists){
+        if(vehicleExists === null){
             throw new Error("Veículo não existe!")
         }
 

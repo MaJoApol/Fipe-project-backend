@@ -14,7 +14,7 @@ export class UpdateFuelTypeUseCase{
 
     async execute(data: UpdateFuelTypesDTO, tokenId: string): Promise<FuelTypesDTO>{
         const fuelTypeExists= await this.fuelTypesRepository.findById(data.id);
-        if (!fuelTypeExists) {
+        if (fuelTypeExists === null) {
             throw new Error("Combustível não existe!");
         }
 

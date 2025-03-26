@@ -2,21 +2,24 @@ import "reflect-metadata";
 import { describe } from "node:test";
 import { container } from "tsyringe";
 import { Request, Response } from "express";
+import { ListFuelTypesUseCase } from "../../../useCases/listFuelTypes/listFuelTypesUseCase";
+import { ListFuelTypesController } from "../../../useCases/listFuelTypes/listFuelTypesController";
+import { FuelTypesDTO } from "../../../dtos/FuelTypesDTO";
 
-describe("List Brands Controller", () => {
-    let listBrandUseCaseMock: jest.Mocked<ListBrandUseCase>;
-    let listBrandControllerMock: ListBrandController;
+describe("List Fuel Types Controller", () => {
+    let listFuelTypesUseCaseMock: jest.Mocked<ListFuelTypesUseCase>;
+    let listFuelTypeControllerMock: ListFuelTypesController;
     let request: Partial<Request>;
     let response: Partial<Response>;
 
     beforeEach(()=>{
-        listBrandUseCaseMock = {
+        listFuelTypesUseCaseMock = {
             execute: jest.fn()
-        } as unknown as jest.Mocked<ListBrandUseCase>
+        } as unknown as jest.Mocked<ListFuelTypesUseCase>
 
-        jest.spyOn(container, "resolve").mockReturnValue(listBrandUseCaseMock);
+        jest.spyOn(container, "resolve").mockReturnValue(listFuelTypesUseCaseMock);
 
-        listBrandControllerMock = new ListBrandController();
+        listFuelTypeControllerMock = new ListFuelTypesController();
 
         request = {
             query: {
@@ -33,13 +36,13 @@ describe("List Brands Controller", () => {
     });
 
     function MockedData(pageNumber: number){
-        var mockedData: BrandDTO[] = []
+        var mockedData: FuelTypesDTO[] = []
         for (var i = 0; i < pageNumber; i++){
             mockedData.push(
                 {
-                    id: `brand-${i + 1}`,
-                    name: `Brand ${i + 1}`,
-                    fipeCode: null,
+                    id: `fuelType-${i + 1}`,
+                    name: `FuelType ${i + 1}`,
+                    abbreviation: `Abbrev ${i + 1}`,
                     createdAt: new Date(),
                     updatedAt: new Date(),
                     isDeleted: false,
@@ -54,24 +57,23 @@ describe("List Brands Controller", () => {
     } 
 
     it("Deve chamar o Use Case e retornar 200", async () => {
-        const mockBrands = MockedData(5);
+        const mockBrands = MockedData(10);
+        listFuelTypesUseCaseMock.execute.mockResolvedValue(mockBrands);
 
-        listBrandUseCaseMock.execute.mockResolvedValue(mockBrands);
-
-        await listBrandControllerMock.handle(
+        await listFuelTypeControllerMock.handle(
             request as Request,
             response as Response
         )
 
         expect(response.status).toHaveBeenCalledWith(200);
-        expect(response.json).toHaveBeenCalledWith({message: "Listado com sucesso!", brands: mockBrands})
+        expect(response.json).toHaveBeenCalledWith({message: "Listado com sucesso!", fuelTypes: mockBrands})
     })
 
     it("deve retornar status 400 se o use case lançar um erro", async () => {
         const errorMessage = "Erro ao listar";
-        listBrandUseCaseMock.execute.mockRejectedValue(new Error(errorMessage));
+        listFuelTypesUseCaseMock.execute.mockRejectedValue(new Error(errorMessage));
 
-        await listBrandControllerMock.handle(request as Request, response as Response);
+        await listFuelTypeControllerMock.handle(request as Request, response as Response);
 
         expect(response.status).toHaveBeenCalledWith(400);
         expect(response.json).toHaveBeenCalledWith({ message: errorMessage });

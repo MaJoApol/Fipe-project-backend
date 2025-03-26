@@ -45,16 +45,16 @@ export class VehiclesRepository implements IVehiclesRepository{
         })) as VehicleDTO[];
     }
 
-    async findById(id: string): Promise<VehicleDTO>{
+    async findById(id: string): Promise<VehicleDTO | null>{
         return await prisma.vehicles.findUnique({
             where: {id, isDeleted: false}
         }) as VehicleDTO;
     }
 
-    async list({page}: {page: number}){
+    async list(page: number, pageSize: number){
         return ( await prisma.vehicles.findMany({
-            skip: (page - 1) * 10,
-            take: 10,
+            skip: (page - 1) * pageSize,
+            take: pageSize,
             orderBy: [{
                 createdAt: "asc"
             }]

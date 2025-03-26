@@ -25,7 +25,7 @@ describe("Delete Brand Use Case", () => {
         name: "TesteName",
         id: "1",
         fipeCode: null,
-        isDeleted: false,
+        isDeleted: true,
         createdAt: new Date(),
         updatedAt: null,
         deletedAt: null,
