@@ -5,6 +5,7 @@ import { CreateModelUseCase } from "../../../useCases/createModel/CreateModelUse
 import { ModelsRepository } from "../../../infra/prisma/repositories/ModelsRepository";
 import { ModelDTO } from "../../../dtos/ModelDTO";
 import { CreateModelDTO } from "../../../dtos/CreateModelDTO";
+import { BrandsRepository } from "../../../../brands/infra/prisma/repositories/brandsRepository";
 
 jest.mock("../../../../../utils/findTokenId"); // simulado a função findTokenId
 
@@ -12,14 +13,19 @@ describe("Create Model Use Case", () => {
 
     let createModelUseCase: CreateModelUseCase;
     let modelsRepositoryMock: jest.Mocked<ModelsRepository>;
+    let brandsRepositoryMock: jest.Mocked<BrandsRepository>;
 
     beforeEach(() =>{
         modelsRepositoryMock = {
             findExistingModels: jest.fn(),
             create: jest.fn(),
         } as unknown as jest.Mocked<ModelsRepository>;
+
+        brandsRepositoryMock = {
+            findById: jest.fn(),
+        } as unknown as jest.Mocked<BrandsRepository>;
     
-        createModelUseCase = new CreateModelUseCase(modelsRepositoryMock);
+        createModelUseCase = new CreateModelUseCase(modelsRepositoryMock, brandsRepositoryMock);
     })
 
     const mockedData: ModelDTO = {

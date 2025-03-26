@@ -30,10 +30,10 @@ export class UsersRepository implements IUsersRepository{
         }) as UsersDTO
     }
 
-    async list({page}: {page:number}){
+    async list(page: number, pageSize: number){
         return (await prisma.users.findMany({
-            skip: (page - 1) * 10,
-            take: 10,
+            skip: (page - 1) * pageSize,
+            take: pageSize,
             orderBy: [{
                 createdAt: "asc"
             }]

@@ -11,3 +11,5 @@ export interface IBrandsRepository{
     findById(id: string): Promise<BrandDTO | null> ;
     findExistingBrands(name: string): Promise<BrandDTO[]>;
 }
+
+//ts-node-dev --respawn --transpile-only

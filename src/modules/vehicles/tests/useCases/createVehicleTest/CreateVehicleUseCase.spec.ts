@@ -6,6 +6,8 @@ import { VehicleDTO } from "../../../dtos/VehicleDTO";
 import { CreateVehicleDTO } from "../../../dtos/CreateVehicleDTO";
 import { CreateVehicleUseCase } from "../../../useCases/createVehicle/CreateVehicleUseCase";
 import { VehiclesRepository } from "../../../infra/prisma/repository/VehiclesRepository";
+import { ModelsRepository } from "../../../../models/infra/prisma/repositories/ModelsRepository";
+import { FuelTypesRepository } from "../../../../fuelTypes/infra/prisma/repositories/FuelTypesRepository";
 
 jest.mock("../../../../../utils/findTokenId"); // simulado a função findTokenId
 
@@ -13,6 +15,8 @@ describe("Create Model Use Case", () => {
 
     let createVehicleUseCase: CreateVehicleUseCase;
     let vehiclesRepositoryMock: jest.Mocked<VehiclesRepository>;
+    let modelsRepositoryMock: jest.Mocked<ModelsRepository>;
+    let fuelTypesRepositoryMock: jest.Mocked<FuelTypesRepository>;
 
     beforeEach(() =>{
         jest.clearAllMocks();
@@ -20,9 +24,12 @@ describe("Create Model Use Case", () => {
             findExistingVehicles: jest.fn(),
             create: jest.fn(),
         } as unknown as jest.Mocked<VehiclesRepository>;
+
+        modelsRepositoryMock = {findById: jest.fn()} as unknown as jest.Mocked<ModelsRepository>
+        fuelTypesRepositoryMock = {findById: jest.fn()} as unknown as jest.Mocked<FuelTypesRepository>
     
-        createVehicleUseCase = new CreateVehicleUseCase(vehiclesRepositoryMock);
-    })
+        createVehicleUseCase = new CreateVehicleUseCase(vehiclesRepositoryMock, modelsRepositoryMock, fuelTypesRepositoryMock);
+    }) 
 
     const mockedData: VehicleDTO = {
         value: 120000,

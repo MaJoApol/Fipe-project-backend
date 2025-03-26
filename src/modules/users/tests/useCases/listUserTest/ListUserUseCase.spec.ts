@@ -1,34 +1,39 @@
 import "reflect-metadata";
 import { describe } from "node:test";
-import { ListModelUseCase } from "../../../useCases/listModel/ListModelUseCase";
-import { ModelsRepository } from "../../../infra/prisma/repositories/ModelsRepository";
-import { ModelDTO } from "../../../dtos/ModelDTO";
+import { ListUserUseCase } from "../../../useCases/listUser.ts/ListUserUseCase";
+import { UsersRepository } from "../../../infra/prisma/repositories/UsersRepository";
+import { UsersDTO } from "../../../dtos/UsersDTO";
+
 
 jest.mock("../../../../../utils/findTokenId"); // simulado a função findTokenId
 
 describe("List Brand Use Case", () => {
 
-    let listModelUseCase: ListModelUseCase;
-    let modelsRepositoryMock: jest.Mocked<ModelsRepository>;
+    let listUserUseCase: ListUserUseCase;
+    let usersRepositoryMock: jest.Mocked<UsersRepository>;
 
     beforeEach(() =>{
-        modelsRepositoryMock = {
+        usersRepositoryMock = {
             list: jest.fn(),
-        } as unknown as jest.Mocked<ModelsRepository>;
+        } as unknown as jest.Mocked<UsersRepository>;
     
-        listModelUseCase = new ListModelUseCase(modelsRepositoryMock);
+        listUserUseCase = new ListUserUseCase(usersRepositoryMock);
     })
 
     
     function MockedData(pageNumber: number){
-        var mockedData: ModelDTO[] = []
+        var mockedData: UsersDTO[] = []
         for (var i = 0; i < pageNumber; i++){
             mockedData.push(
                 {
-                    id: `model-${i + 1}`,
-                    name: `Model ${i + 1}`,
-                    brandId: `Brand Id ${i + 1}`,
-                    fipeCode: null,
+                    id: `user-${i + 1}`,
+                    token: "",
+                    name: `User ${i + 1}`,
+                    nationalId: `User cpf ${i + 1}`,
+                    email: `User email ${i + 1}`,
+                    password: `User email ${i + 1}`,
+                    birthdate: null,
+                    contact: null,
                     createdAt: new Date(),
                     updatedAt: null,
                     isDeleted: false,
@@ -44,23 +49,23 @@ describe("List Brand Use Case", () => {
 
     it("Deve criar mostrar os dados sucesso ✅", async () => {
         const mockedData = MockedData(10);
-        modelsRepositoryMock.list.mockResolvedValue(mockedData);
+        usersRepositoryMock.list.mockResolvedValue(mockedData);
         const page = 1;
         const pageSize = 10;
-        const result = await listModelUseCase.execute(page, pageSize);
+        const result = await listUserUseCase.execute(page, pageSize);
 
-        expect(modelsRepositoryMock.list).toHaveBeenCalledWith(page, pageSize);
+        expect(usersRepositoryMock.list).toHaveBeenCalledWith(page, pageSize);
         expect(result).toEqual(mockedData);
         expect(result.length).toBe(pageSize);
     })
 
     it("Deve retornar uma lista vazia caso não haja marcas ❌", async () => {
-        modelsRepositoryMock.list.mockResolvedValue([]);
+        usersRepositoryMock.list.mockResolvedValue([]);
 
         const page = 1;
         const pageSize = 10;
-        const result = await listModelUseCase.execute(page, pageSize);
-        expect(modelsRepositoryMock.list).toHaveBeenCalledWith(page, pageSize);
+        const result = await listUserUseCase.execute(page, pageSize);
+        expect(usersRepositoryMock.list).toHaveBeenCalledWith(page, pageSize);
         expect(result).toEqual([]);
     })
 

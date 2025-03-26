@@ -8,7 +8,7 @@ export class ListUserUseCase{
         @inject("UsersRepository")
         private usersRepository: UsersRepository
     ){}
-    async execute(): Promise<UsersDTO[]>{
-        return await this.usersRepository.list({page: 1});
+    async execute(page: number, pageSize: number): Promise<UsersDTO[]>{
+        return await this.usersRepository.list(1, 10);
     }
 }
