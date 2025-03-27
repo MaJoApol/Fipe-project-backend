@@ -62,7 +62,7 @@ export class UsersRepository implements IUsersRepository{
         })) as UsersDTO;
     }
 
-     async updateToken(id: string, token: string): Promise<UsersDTO>{
+    async updateToken(id: string, token: string): Promise<UsersDTO>{
         return (await prisma.users.update({
             where: {id},
             data: {
@@ -70,7 +70,6 @@ export class UsersRepository implements IUsersRepository{
             }
         })) as UsersDTO;
 
-     }
-
+    }
 
 }

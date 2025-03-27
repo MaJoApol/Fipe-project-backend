@@ -10,6 +10,7 @@ const deleteUserController = new DeleteUserController;
 const updateUserController = new UpdateUserController;
 const listUserController = new ListUserController;
 
+
 export const userRoutes = Router();
 
 userRoutes.post("/create", ensureAunthenticated, createUserController.handle)

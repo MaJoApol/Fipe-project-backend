@@ -4,17 +4,8 @@ import { AuthenticateUserDTO } from "../../dtos/AuthenticateUserDTO";
 import { compare } from "bcrypt";
 import { sign } from "jsonwebtoken";
 import  auth  from "../../../../config/auth"
-import { UsersDTO } from "../../dtos/UsersDTO";
-import { addDays } from "../../../../utils/addDays";
-import { isAbsolute } from "path";
-
-interface UserAuthResponse {
-    user: UsersDTO;
-    token: string;
-    refreshToken: string;
-    tokenTime: number;
-}
-
+import { addDays } from "../../../../utils/addTime";  
+import { UserAuthResponseDTO } from "../../dtos/UserAuthResponseDTO";
 
 @injectable()
 export class AuthenticateUserUseCase{
@@ -22,7 +13,7 @@ export class AuthenticateUserUseCase{
         @inject("UsersRepository")
         private usersRepository: IUsersRepository,
     ){}
-    async execute(data: AuthenticateUserDTO): Promise<UserAuthResponse>{
+    async execute(data: AuthenticateUserDTO): Promise<UserAuthResponseDTO>{
         const existingUser = await this.usersRepository.findByEmail(data.email);
         if (!existingUser){
    
@@ -62,7 +53,7 @@ export class AuthenticateUserUseCase{
         const expire_in_token = addDays(auth.expires_in_token_days).getTime(); // aqui ele pega o tempo que vai levar até expirar em milissegundos
 
         await this.usersRepository.updateToken(existingUser.id, refreshToken);
-        const userAuthResponse: UserAuthResponse = {
+        const userAuthResponseDTO: UserAuthResponseDTO = {
             user: existingUser,
             token,
             refreshToken, 
@@ -70,7 +61,7 @@ export class AuthenticateUserUseCase{
         }
         
 
-        return userAuthResponse;
+        return userAuthResponseDTO;
         
     }
 }
