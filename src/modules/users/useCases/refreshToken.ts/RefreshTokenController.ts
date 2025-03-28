@@ -1,7 +1,7 @@
 
 import { Response, Request } from "express";
 import { container } from "tsyringe";
-import { RefreshTokenUseCase } from "./refreshTokenUseCase";
+import { RefreshTokenUseCase } from "./RefreshTokenUseCase";
 import { RefreshTokenDTO } from "../../dtos/RefreshTokenDTO";
 
 

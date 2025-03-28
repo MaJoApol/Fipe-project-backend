@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 import { IUsersRepository } from "../../repositories/IUsersRepository";
 import  auth  from "../../../../config/auth"
-import { addDays } from "../../../../utils/addTime";  
+import { addTime } from "../../../../utils/addTime";  
 import { verify, sign } from "jsonwebtoken";
 import jwt from "jsonwebtoken";
 import { IAuthTokenPayload } from "../../repositories/IAuthTokenPayload";
@@ -49,7 +49,7 @@ export class RefreshTokenUseCase{
 
         const refreshedUser = await this.usersRepository.updateToken(sub, newRefreshToken);
 
-        const expire_in_token = addDays(auth.expires_in_token_minutes).getTime();
+        const expire_in_token = addTime(auth.expires_in_token_minutes);
 
         const userAuthResponse: UserAuthResponseDTO = {
             user: refreshedUser,
