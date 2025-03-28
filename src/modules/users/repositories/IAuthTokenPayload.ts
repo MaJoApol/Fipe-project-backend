@@ -1,4 +1,4 @@
 
 export interface IAuthTokenPayload{
-    sub: string;
+    subId: string;
 }

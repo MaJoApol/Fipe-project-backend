@@ -9,6 +9,6 @@ export class AuthenticateUserController{
         const data: AuthenticateUserDTO = request.body;
         const authenticateUserUseCase = container.resolve(AuthenticateUserUseCase);
         const authResponse = await authenticateUserUseCase.execute(data);
-        return response.status(200).json({authResponse})
+        return response.status(200).json(authResponse)
     }
 }

@@ -25,12 +25,12 @@ export class RefreshTokenUseCase{
             throw new Error("Variáveis de ambiente de autenticação ausentes")
         }
 
-        const {sub}  = verify(
+        const {subId}  = verify(
             refreshToken,
             secretRefreshToken
         ) as IAuthTokenPayload;
        
-        const user = await this.usersRepository.findById(sub)
+        const user = await this.usersRepository.findById(subId)
 
         if (!user){
             throw new Error("Usuário não existe!");
@@ -47,7 +47,7 @@ export class RefreshTokenUseCase{
 
         const newRefreshToken = sign({id: user.id}, secretRefreshToken, {expiresIn: "7200m"});
 
-        const refreshedUser = await this.usersRepository.updateToken(sub, newRefreshToken);
+        const refreshedUser = await this.usersRepository.updateToken(subId, newRefreshToken);
 
         const expire_in_token = addTime(auth.expires_in_token_minutes);
 

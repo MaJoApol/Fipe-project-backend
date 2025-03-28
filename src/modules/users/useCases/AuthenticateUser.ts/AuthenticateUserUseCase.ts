@@ -47,7 +47,7 @@ export class AuthenticateUserUseCase{
             auth.secret_refresh_token,
             {
                 subject: existingUser.id,
-                expiresIn: "5d"
+                expiresIn: "7200m"
             });
 
         const expire_in_token = addTime(auth.expires_in_token_minutes); // aqui ele pega o tempo que vai levar até expirar em milissegundos
@@ -60,7 +60,7 @@ export class AuthenticateUserUseCase{
             tokenTime: expire_in_token
         }
         
-
+        console.log("USE CASE AAAAAAAAAAAAAAAAAAAAAAAAAAAAA", userAuthResponseDTO)
         return userAuthResponseDTO;
         
     }

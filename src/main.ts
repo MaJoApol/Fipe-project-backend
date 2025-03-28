@@ -12,6 +12,6 @@ app.use(routes);
 
 const server = createServer(app);
 
-server.listen(3000, () => {
+server.listen(3001, () => {
     console.log("Server started")
 })
