@@ -14,6 +14,8 @@ export class AuthenticateUserUseCase{
         private usersRepository: IUsersRepository,
     ){}
     async execute(data: AuthenticateUserDTO): Promise<UserAuthResponseDTO>{
+
+
         const existingUser = await this.usersRepository.findByEmail(data.email);
         if (!existingUser){
    
@@ -60,7 +62,6 @@ export class AuthenticateUserUseCase{
             tokenTime: expire_in_token
         }
         
-        console.log("USE CASE AAAAAAAAAAAAAAAAAAAAAAAAAAAAA", userAuthResponseDTO)
         return userAuthResponseDTO;
         
     }
