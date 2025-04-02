@@ -57,7 +57,7 @@ export class UsersRepository implements IUsersRepository{
     }
 
     async findByEmail(email: string): Promise<UsersDTO>{
-        return (await prisma.users.findUnique({
+        return (await prisma.users.findFirst({
             where: {email: email, isDeleted: false}
         })) as UsersDTO;
     }

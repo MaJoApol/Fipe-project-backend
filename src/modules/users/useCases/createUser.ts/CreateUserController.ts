@@ -16,7 +16,7 @@ export class CreateUserController{
         
             return response.status(201).json({message: "Criado com sucesso!"})
         } catch (error: any) {
-            return response.status(400).json({message: error}) 
+            return response.status(400).json({error}) 
         }
 
     }

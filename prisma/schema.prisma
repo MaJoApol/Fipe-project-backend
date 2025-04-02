@@ -19,7 +19,7 @@ model Users {
   birthdate  DateTime? @db.Date
   contact    String?
   nationalId String    @unique
-  email      String    
+  email      String    @unique
   password   String     
   token      String?   @unique
 

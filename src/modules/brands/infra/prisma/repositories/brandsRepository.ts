@@ -51,4 +51,8 @@ export class BrandsRepository implements IBrandsRepository{
             ]
         })) as BrandDTO[];
     }
+
+    async findAllBrands(): Promise<BrandDTO[]>{
+        return(await prisma.brands.findMany({where:{isDeleted: false}}))
+    }
 }

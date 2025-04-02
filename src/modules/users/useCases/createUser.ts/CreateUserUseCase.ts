@@ -5,7 +5,7 @@ import { hash } from "bcrypt";
 import { findTokenId } from "../../../../utils/findTokenId";
 import { NormalizeError, PageNotFoundError } from "next/dist/shared/lib/utils";
 import { UsersDTO } from "../../dtos/UsersDTO";
-import AlredyExistsError from "../../../../shared/infra/http/errs/AlreadyExistError";
+import AlredyExistsError from "../../../../shared/infra/http/errors/AlreadyExistError";
 
 
 @injectable()
@@ -19,7 +19,7 @@ export class CreateUserUseCase {
         
         const existingUser = await this.usersRepository.findExistingUsers(data)
         if (existingUser.length > 0) {
-            throw new AlredyExistsError("User")
+            throw new AlredyExistsError("Usuário", "Você será redirecionado.")
         }
 
         const passwordHash = await hash(data.password, 13)
