@@ -2,7 +2,6 @@ import { Router } from "express";
 import { CreateFuelTypeController } from "../useCases/createFuelTypes/CreateFuelTypesController";
 import { DeleteFuelTypesController } from "../useCases/deleteFuelTypes/DeleteFuelTypesController";
 import { UpdateFuelTypeController } from "../useCases/updateFuelTypes/UpdateFuelTypesController";
-import { FuelTypesRepository } from "../infra/prisma/repositories/FuelTypesRepository";
 import { ListFuelTypesController } from "../useCases/listFuelTypes/listFuelTypesController";
 
 const createFuelTypeController = new CreateFuelTypeController();

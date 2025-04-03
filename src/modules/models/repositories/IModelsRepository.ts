@@ -9,4 +9,5 @@ export interface IModelsRepository{
     remove(id: string, performer: string): Promise<void>;
     findById(id: string): Promise<ModelDTO | null>;
     findExistingModels(name: string): Promise<ModelDTO[]>;
+    findModelsByBrand(brandId: string): Promise<ModelDTO[]>;
 }

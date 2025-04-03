@@ -51,5 +51,11 @@ export class ModelsRepository implements IModelsRepository{
             ]
         })) as ModelDTO[];
     }
+
+    async findModelsByBrand(brandId: string): Promise<ModelDTO[]>{
+        return ( await prisma.models.findMany({
+            where: {brandId: brandId, isDeleted: false}
+        }))
+    }
 }
 
