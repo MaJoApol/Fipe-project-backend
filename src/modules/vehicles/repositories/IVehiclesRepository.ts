@@ -10,5 +10,5 @@ export interface IVehiclesRepository{
     list(page: number, pageSize: number): Promise<VehicleDTO[]>;
     findExistingVehicles(data: CreateVehicleDTO): Promise<VehicleDTO[]>;
     findById(id: string): Promise<VehicleDTO | null>;
-    findVehiclesByFilters(filters: FilterDTO): Promise<VehicleDTO[]>;
+    findVehiclesByFilters(modelId:string, filters: FilterDTO): Promise<VehicleDTO[]>;
 }

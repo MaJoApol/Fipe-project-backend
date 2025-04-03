@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { container } from "tsyringe";
 import { GetVehiclesByFiltersUseCase } from "./GetVehicleByFiltersUseCase";
 
-export class GetVehicleByFiltersController{
+export class GetVehiclesByModelController{
     async handle(request: Request, response: Response){
          try {
             const filters = request.body;

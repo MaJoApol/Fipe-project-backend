@@ -62,10 +62,8 @@ export class VehiclesRepository implements IVehiclesRepository {
         })) as VehicleDTO[];
     }
 
-    async findVehiclesByFilters(filters: FilterDTO): Promise<VehicleDTO[]> {
-        let where: FilterDTO = {
-            modelId: filters.modelId,
-        }
+    async findVehiclesByFilters(modelId: string, filters: FilterDTO): Promise<VehicleDTO[]> {
+        let where: FilterDTO = {}
 
         if (filters.fuelTypeId) where.fuelTypeId = filters.fuelTypeId
         if (filters.vehicleYear) where.vehicleYear = filters.vehicleYear
@@ -73,7 +71,7 @@ export class VehiclesRepository implements IVehiclesRepository {
         if (filters.referenceYear) where.referenceYear = filters.referenceYear
 
         return (await prisma.vehicles.findMany({
-            where: {isDeleted: false, ...where},
+            where: {modelId: modelId,isDeleted: false, ...where},
             include: {
                 fuelType: {
                     select: {
