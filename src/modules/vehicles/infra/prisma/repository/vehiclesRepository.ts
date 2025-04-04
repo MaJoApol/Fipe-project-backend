@@ -1,6 +1,6 @@
 
 import { prisma } from "../../../../../shared/infra/prisma";
-import { FilterDTO } from "../../../../fuelTypes/dtos/FilterDTO";
+import { FilterDTO, FilterWhereDTO } from "../../../../fuelTypes/dtos/FilterDTO";
 import { CreateVehicleDTO } from "../../../dtos/CreateVehicleDTO";
 import { UpdateVehicleDTO } from "../../../dtos/UpdateVehicleDTO";
 import { VehicleDTO } from "../../../dtos/VehicleDTO";
@@ -63,15 +63,16 @@ export class VehiclesRepository implements IVehiclesRepository {
     }
 
     async findVehiclesByFilters(modelId: string, filters: FilterDTO): Promise<VehicleDTO[]> {
-        let where: FilterDTO = {}
+        let where: FilterWhereDTO = {}
+        console.log(filters)
 
-        if (filters.fuelTypeId) where.fuelTypeId = filters.fuelTypeId
-        if (filters.vehicleYear) where.vehicleYear = filters.vehicleYear
+        if (filters.fuelTypeFilter) where.fuelTypeId = filters.fuelTypeFilter
+        if (filters.vehicleYearFilter) where.vehicleYear = filters.vehicleYearFilter
         if (filters.referenceMonth) where.referenceMonth = filters.referenceMonth
         if (filters.referenceYear) where.referenceYear = filters.referenceYear
 
         return (await prisma.vehicles.findMany({
-            where: {modelId: modelId,isDeleted: false, ...where},
+            where: {modelId: modelId, isDeleted: false, ...where},
             include: {
                 fuelType: {
                     select: {

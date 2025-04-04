@@ -2,15 +2,18 @@ import { Request, Response } from "express";
 import { container } from "tsyringe";
 import { GetVehiclesByFiltersUseCase } from "./GetVehicleByFiltersUseCase";
 
-export class GetVehiclesByModelController{
+export class GetVehiclesByFiltersController{
     async handle(request: Request, response: Response){
          try {
             const filters = request.body;
+            console.log(filters)
+            const {modelId} =  request.params;
             const getVehiclesByFiltersUseCase = container.resolve(GetVehiclesByFiltersUseCase);
-            const vehicles = await getVehiclesByFiltersUseCase.execute(filters);
+            const vehicles = await getVehiclesByFiltersUseCase.execute(modelId, filters);
             return response.status(200).json({message: "Listado com sucesso!", vehicles});
         } catch (error) {
-            return response.status(404).json({message: "Não há veículos cadastrados"} );
+            console.log(error)
+            return response.status(500).json({message: error} );
         }
     }
 }

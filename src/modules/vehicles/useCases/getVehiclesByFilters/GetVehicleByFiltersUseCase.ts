@@ -11,18 +11,21 @@ export class GetVehiclesByFiltersUseCase{
         private vehiclesRepository : IVehiclesRepository
     ){}
 
-    async execute(filters: FilterDTO): Promise<VehicleDTO[]>{
-        const filterBy: FilterDTO = {
-            modelId: filters.modelId
-        }
+    async execute(modelId: string, filters: FilterDTO): Promise<VehicleDTO[]>{
+        const filterBy: FilterDTO = {}
+        console.log(filters)
 
-        if (filters.fuelTypeId) filterBy.fuelTypeId = filters.fuelTypeId
-        if (filters.vehicleYear) filterBy.vehicleYear = filters.vehicleYear
+       
+
+        if (filters.fuelTypeFilter) filterBy.fuelTypeFilter = filters.fuelTypeFilter
+        if (filters.vehicleYearFilter) filterBy.vehicleYearFilter = filters.vehicleYearFilter
         if (filters.referenceMonth) filterBy.referenceMonth = filters.referenceMonth
         if (filters.referenceYear) filterBy.referenceYear = filters.referenceYear
 
-        const vehicles = await this.vehiclesRepository.findVehiclesByFilters(filterBy)
-        return filterBy.modelId ? vehicles : []
+        console.log(filterBy)
+
+        const vehicles = await this.vehiclesRepository.findVehiclesByFilters(modelId, filterBy)
+        return modelId ? vehicles : []
 
     }
 }
