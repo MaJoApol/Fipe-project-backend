@@ -10,7 +10,7 @@ export function findTokenId(authHeader: string | any){
     const [, token] =  authHeader.split(" ");
 
     try {
-        const { id: userId } = verify(token, auth.secret_token) as {id: string};
+        const { sub: userId } = verify(token, auth.secret_token) as {sub: string};
 
         return userId
         

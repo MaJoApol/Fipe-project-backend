@@ -12,7 +12,7 @@ export class CreateVehicleController{
             await createVehicleUseCase.execute(data, tokenId)
             return response.status(201).json({message: "Criado com sucesso!"})    
         } catch (error) {
-            return response.status(400).json({message: "Erro ao criar veículo."})  
+            return response.status(500).json(error)  
         }
 
     }
