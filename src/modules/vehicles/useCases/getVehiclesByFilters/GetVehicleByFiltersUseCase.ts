@@ -13,16 +13,10 @@ export class GetVehiclesByFiltersUseCase{
 
     async execute(modelId: string, filters: FilterDTO): Promise<VehicleDTO[]>{
         const filterBy: FilterDTO = {}
-        console.log(filters)
-
-       
-
-        if (filters.fuelTypeFilter) filterBy.fuelTypeFilter = filters.fuelTypeFilter
+        if (filters.fuelTypeIdFilter) filterBy.fuelTypeIdFilter = filters.fuelTypeIdFilter
         if (filters.vehicleYearFilter) filterBy.vehicleYearFilter = filters.vehicleYearFilter
-        if (filters.referenceMonth) filterBy.referenceMonth = filters.referenceMonth
-        if (filters.referenceYear) filterBy.referenceYear = filters.referenceYear
-
-        console.log(filterBy)
+        if (filters.referenceMonthFilter) filterBy.referenceMonthFilter = Number(filters.referenceMonthFilter)
+        if (filters.referenceYearFilter) filterBy.referenceYearFilter = Number(filters.referenceYearFilter)
 
         const vehicles = await this.vehiclesRepository.findVehiclesByFilters(modelId, filterBy)
         return modelId ? vehicles : []

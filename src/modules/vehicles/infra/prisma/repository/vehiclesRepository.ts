@@ -66,10 +66,10 @@ export class VehiclesRepository implements IVehiclesRepository {
         let where: FilterWhereDTO = {}
         console.log(filters)
 
-        if (filters.fuelTypeFilter) where.fuelTypeId = filters.fuelTypeFilter
+        if (filters.fuelTypeIdFilter) where.fuelTypeId = filters.fuelTypeIdFilter
         if (filters.vehicleYearFilter) where.vehicleYear = filters.vehicleYearFilter
-        if (filters.referenceMonth) where.referenceMonth = filters.referenceMonth
-        if (filters.referenceYear) where.referenceYear = filters.referenceYear
+        if (filters.referenceMonthFilter) where.referenceMonth = filters.referenceMonthFilter
+        if (filters.referenceYearFilter) where.referenceYear = filters.referenceYearFilter
 
         return (await prisma.vehicles.findMany({
             where: {modelId: modelId, isDeleted: false, ...where},

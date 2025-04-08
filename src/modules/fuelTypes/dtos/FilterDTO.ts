@@ -1,9 +1,9 @@
 
 export interface FilterDTO {
     vehicleYearFilter?: number,
-    fuelTypeFilter?: string
-    referenceMonth?: number
-    referenceYear?: number
+    fuelTypeIdFilter?: string
+    referenceMonthFilter?: number
+    referenceYearFilter?: number
 }
 
 export interface FilterWhereDTO {
