@@ -19,6 +19,7 @@ export class GetVehiclesByFiltersUseCase{
         if (filters.referenceYearFilter) filterBy.referenceYearFilter = Number(filters.referenceYearFilter)
 
         const vehicles = await this.vehiclesRepository.findVehiclesByFilters(modelId, filterBy)
+       
         return modelId ? vehicles : []
 
     }

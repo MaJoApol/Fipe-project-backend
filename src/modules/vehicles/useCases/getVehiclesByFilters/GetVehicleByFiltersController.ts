@@ -10,6 +10,7 @@ export class GetVehiclesByFiltersController{
             const {modelId} =  request.params;
             const getVehiclesByFiltersUseCase = container.resolve(GetVehiclesByFiltersUseCase);
             const vehicles = await getVehiclesByFiltersUseCase.execute(modelId, filters);
+            console.log("CONTROLLER", vehicles)
             return response.status(200).json({message: "Listado com sucesso!", vehicles});
         } catch (error) {
             console.log(error)
